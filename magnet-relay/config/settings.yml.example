@@ -1,0 +1,25 @@
+# Magnet Relay Configuration
+# Copy this to settings.yml and customize
+
+# Where your media lives
+download:
+  base_path: "/Volumes/Media"
+  auto_create_dirs: true
+
+# Transmission connection
+transmission:
+  host: "127.0.0.1"
+  port: 9091
+  username: ""
+  password: ""
+  # Require VPN to be active before adding downloads
+  # Set to false if you handle VPN at the network level or don't need it
+  require_vpn: true
+  # VPN interface prefix to look for (macOS uses utun for most VPNs)
+  vpn_interface: "utun"
+
+# Server settings
+server:
+  host: "0.0.0.0"
+  port: 4567
+  api_key: ""  # Leave empty to disable auth, or set a secret key

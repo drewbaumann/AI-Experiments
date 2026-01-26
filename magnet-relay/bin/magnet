@@ -1,0 +1,239 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+require 'json'
+
+# Add lib to load path
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+require 'magnet_relay'
+
+class MagnetCLI
+  def run(args)
+    command = args.shift
+
+    case command
+    when 'add'
+      add_torrent(args)
+    when 'analyze'
+      analyze_magnet(args)
+    when 'categories'
+      list_categories
+    when 'status'
+      show_status
+    when 'server'
+      start_server(args)
+    when 'help', '-h', '--help', nil
+      show_help
+    else
+      puts "Unknown command: #{command}"
+      show_help
+      exit 1
+    end
+  end
+
+  private
+
+  def add_torrent(args)
+    options = { metadata: {} }
+
+    parser = OptionParser.new do |opts|
+      opts.banner = "Usage: magnet add MAGNET_URL [options]"
+      opts.on('-c', '--category CAT', 'Category (movie, show, book, etc.)') { |v| options[:category] = v }
+      opts.on('-t', '--title TITLE', 'Title') { |v| options[:metadata]['title'] = v }
+      opts.on('-y', '--year YEAR', 'Year') { |v| options[:metadata]['year'] = v }
+      opts.on('-s', '--show NAME', 'Show name') { |v| options[:metadata]['show_name'] = v }
+      opts.on('-n', '--season NUM', 'Season number') { |v| options[:metadata]['season'] = v.to_s.rjust(2, '0') }
+      opts.on('-a', '--author NAME', 'Author') { |v| options[:metadata]['author'] = v }
+      opts.on('--artist NAME', 'Artist') { |v| options[:metadata]['artist'] = v }
+      opts.on('--album NAME', 'Album') { |v| options[:metadata]['album'] = v }
+      opts.on('--dry-run', 'Show what would happen without adding') { options[:dry_run] = true }
+    end
+    parser.parse!(args)
+
+    magnet_url = args.first
+    unless magnet_url&.start_with?('magnet:')
+      puts "Error: Please provide a valid magnet URL"
+      puts parser
+      exit 1
+    end
+
+    unless MagnetRelay::Validator.valid?(magnet_url)
+      puts "Error: Invalid magnet URL format"
+      exit 1
+    end
+
+    classifier = MagnetRelay::Classifier.new
+    path_resolver = MagnetRelay::PathResolver.new
+
+    # Extract info
+    name = MagnetRelay::Validator.extract_name(magnet_url)
+    category = options[:category] || classifier.classify(name)
+
+    # Merge detected metadata with provided options
+    detected = classifier.extract_metadata(name, category)
+    metadata = detected.merge(options[:metadata].compact)
+
+    # Resolve path
+    download_dir = path_resolver.preview(category, metadata)
+
+    puts "Name:     #{name || '(unknown)'}"
+    puts "Category: #{category}"
+    puts "Download: #{download_dir}"
+    puts
+
+    if options[:dry_run]
+      puts "(dry run - not adding)"
+      return
+    end
+
+    transmission = MagnetRelay::Transmission.new
+
+    # Check VPN
+    status = transmission.status
+    if status[:vpn_required] && !status[:vpn_active]
+      puts "Error: VPN is not active. Connect to VPN first or set require_vpn: false in settings."
+      exit 1
+    end
+
+    unless status[:connected]
+      puts "Error: Cannot connect to Transmission"
+      exit 1
+    end
+
+    # Add torrent
+    result = transmission.add_torrent(magnet_url, download_dir: path_resolver.resolve(category, metadata))
+
+    if result[:success]
+      puts "Added: #{result[:name]}"
+      puts "Hash:  #{result[:hash]}"
+      puts "(already existed)" if result[:duplicate]
+    else
+      puts "Error: #{result[:message]}"
+      exit 1
+    end
+  end
+
+  def analyze_magnet(args)
+    magnet_url = args.first
+    unless magnet_url&.start_with?('magnet:')
+      puts "Usage: magnet analyze MAGNET_URL"
+      exit 1
+    end
+
+    unless MagnetRelay::Validator.valid?(magnet_url)
+      puts "Error: Invalid magnet URL format"
+      exit 1
+    end
+
+    classifier = MagnetRelay::Classifier.new
+    path_resolver = MagnetRelay::PathResolver.new
+
+    name = MagnetRelay::Validator.extract_name(magnet_url)
+    hash = MagnetRelay::Validator.extract_hash(magnet_url)
+    category = classifier.classify(name)
+    metadata = classifier.extract_metadata(name, category)
+    path = path_resolver.preview(category, metadata)
+
+    puts "Hash:     #{hash}"
+    puts "Name:     #{name || '(none)'}"
+    puts "Category: #{category}"
+    puts "Metadata: #{metadata.inspect}" unless metadata.empty?
+    puts "Path:     #{path}"
+  end
+
+  def list_categories
+    classifier = MagnetRelay::Classifier.new
+    path_resolver = MagnetRelay::PathResolver.new
+
+    puts "Available categories:"
+    puts
+    classifier.category_names.each do |key, name|
+      template = path_resolver.template_for(key)
+      fields = classifier.category_fields(key)
+      puts "  #{key.ljust(12)} #{name}"
+      puts "               Path: #{template}"
+      puts "               Fields: #{fields.join(', ')}" unless fields.empty?
+      puts
+    end
+  end
+
+  def show_status
+    transmission = MagnetRelay::Transmission.new
+    status = transmission.status
+
+    puts "Transmission: #{status[:connected] ? 'connected' : 'not connected'}"
+    puts "VPN:          #{status[:vpn_active] ? 'active' : 'not active'}"
+    puts "VPN required: #{status[:vpn_required] ? 'yes' : 'no'}"
+
+    if status[:vpn_required] && !status[:vpn_active]
+      puts
+      puts "Warning: VPN is required but not active!"
+    end
+  end
+
+  def start_server(args)
+    options = {}
+    parser = OptionParser.new do |opts|
+      opts.banner = "Usage: magnet server [options]"
+      opts.on('-p', '--port PORT', Integer, 'Port (default: 4567)') { |v| options[:port] = v }
+      opts.on('-b', '--bind HOST', 'Host to bind (default: 0.0.0.0)') { |v| options[:host] = v }
+    end
+    parser.parse!(args)
+
+    require 'rack'
+    require 'puma'
+    require 'puma/configuration'
+    require 'puma/launcher'
+
+    port = options[:port] || MagnetRelay.settings.dig('server', 'port') || 4567
+    host = options[:host] || MagnetRelay.settings.dig('server', 'host') || '0.0.0.0'
+
+    puts "Starting Magnet Relay on http://#{host}:#{port}"
+
+    config = Puma::Configuration.new do |user_config|
+      user_config.bind "tcp://#{host}:#{port}"
+      user_config.app MagnetRelay::Server
+      user_config.workers 0
+      user_config.threads 1, 4
+    end
+
+    launcher = Puma::Launcher.new(config)
+    launcher.run
+  end
+
+  def show_help
+    puts <<~HELP
+      Magnet Relay - Send magnet URLs to Transmission
+
+      Usage: magnet <command> [options]
+
+      Commands:
+        add MAGNET_URL     Add a magnet URL to Transmission
+        analyze MAGNET_URL Analyze a magnet URL without adding
+        categories         List available categories
+        status             Check Transmission and VPN status
+        server             Start the web server
+        help               Show this help
+
+      Add options:
+        -c, --category CAT    Override detected category
+        -t, --title TITLE     Set title (movies)
+        -y, --year YEAR       Set year (movies)
+        -s, --show NAME       Set show name (TV shows)
+        -n, --season NUM      Set season number (TV shows)
+        -a, --author NAME     Set author (books)
+        --artist NAME         Set artist (music)
+        --album NAME          Set album (music)
+        --dry-run             Preview without adding
+
+      Examples:
+        magnet add "magnet:?xt=urn:btih:..."
+        magnet add "magnet:..." -c show -s "Breaking Bad" -n 5
+        magnet add "magnet:..." --dry-run
+        magnet server -p 8080
+    HELP
+  end
+end
+
+MagnetCLI.new.run(ARGV)

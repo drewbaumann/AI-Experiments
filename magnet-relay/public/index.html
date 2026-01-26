@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnet Relay</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --surface: #16213e;
+      --primary: #0f3460;
+      --accent: #e94560;
+      --text: #eee;
+      --text-muted: #888;
+      --success: #4ade80;
+      --error: #f87171;
+      --warning: #fbbf24;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .status-dot.ok { background: var(--success); }
+    .status-dot.error { background: var(--error); }
+    .status-dot.warning { background: var(--warning); }
+
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-secondary {
+      background: var(--primary);
+      color: var(--text);
+    }
+
+    .path-preview {
+      font-family: monospace;
+      font-size: 0.9rem;
+      padding: 0.75rem;
+      background: var(--bg);
+      border-radius: 8px;
+      word-break: break-all;
+      color: var(--success);
+    }
+
+    .metadata-fields {
+      display: none;
+    }
+
+    .metadata-fields.visible {
+      display: block;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .message.visible { display: block; }
+    .message.success { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+    .message.error { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+
+    .detected-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .detected-info strong {
+      color: var(--text);
+    }
+
+    .category-select {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .category-btn {
+      padding: 0.5rem;
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .category-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .category-btn.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    @media (max-width: 500px) {
+      .category-select {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Magnet Relay</h1>
+
+    <div class="status-bar">
+      <div class="status-item">
+        <span class="status-dot" id="transmission-status"></span>
+        <span>Transmission</span>
+      </div>
+      <div class="status-item">
+        <span class="status-dot" id="vpn-status"></span>
+        <span>VPN</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="form-group">
+        <label for="magnet">Magnet URL</label>
+        <textarea id="magnet" placeholder="magnet:?xt=urn:btih:..."></textarea>
+        <div class="detected-info" id="detected-info"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Type</label>
+        <div class="category-select" id="category-select"></div>
+      </div>
+
+      <div class="metadata-fields" id="metadata-fields">
+        <div id="dynamic-fields"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Download to</label>
+        <div class="path-preview" id="path-preview">—</div>
+      </div>
+
+      <button class="btn btn-primary" id="submit-btn" disabled>Add Download</button>
+
+      <div class="message" id="message"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_KEY = localStorage.getItem('magnet_relay_api_key') || '';
+    let categories = [];
+    let selectedCategory = null;
+    let currentMetadata = {};
+    let analyzeTimeout = null;
+
+    // API helpers
+    async function api(endpoint, method = 'GET', body = null) {
+      const opts = {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': API_KEY
+        }
+      };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(endpoint, opts);
+      return res.json();
+    }
+
+    // Initialize
+    async function init() {
+      // Check status
+      const health = await api('/health');
+      document.getElementById('transmission-status').className =
+        'status-dot ' + (health.transmission ? 'ok' : 'error');
+      document.getElementById('vpn-status').className =
+        'status-dot ' + (health.vpn_active ? 'ok' : (health.vpn_required ? 'error' : 'warning'));
+
+      // Load categories
+      const catRes = await api('/api/categories');
+      categories = catRes.categories;
+      renderCategories();
+
+      // Set up event listeners
+      document.getElementById('magnet').addEventListener('input', onMagnetInput);
+      document.getElementById('submit-btn').addEventListener('click', onSubmit);
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('category-select');
+      container.innerHTML = categories.map(c => `
+        <button class="category-btn" data-category="${c.key}">${c.name}</button>
+      `).join('');
+
+      container.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectCategory(btn.dataset.category));
+      });
+    }
+
+    function selectCategory(key) {
+      selectedCategory = key;
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.category === key);
+      });
+
+      const cat = categories.find(c => c.key === key);
+      renderMetadataFields(cat.fields);
+      updatePathPreview();
+    }
+
+    function renderMetadataFields(fields) {
+      const container = document.getElementById('metadata-fields');
+      const dynamic = document.getElementById('dynamic-fields');
+
+      if (!fields || fields.length === 0) {
+        container.classList.remove('visible');
+        return;
+      }
+
+      container.classList.add('visible');
+
+      const fieldLabels = {
+        title: 'Title',
+        year: 'Year',
+        show_name: 'Show Name',
+        season: 'Season',
+        author: 'Author',
+        artist: 'Artist',
+        album: 'Album'
+      };
+
+      // Group into rows of 2
+      let html = '';
+      for (let i = 0; i < fields.length; i += 2) {
+        html += '<div class="field-row">';
+        for (let j = i; j < Math.min(i + 2, fields.length); j++) {
+          const field = fields[j];
+          const value = currentMetadata[field] || '';
+          html += `
+            <div class="form-group">
+              <label for="field-${field}">${fieldLabels[field] || field}</label>
+              <input type="text" id="field-${field}" data-field="${field}" value="${value}">
+            </div>
+          `;
+        }
+        html += '</div>';
+      }
+
+      dynamic.innerHTML = html;
+
+      // Add listeners
+      dynamic.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          currentMetadata[e.target.dataset.field] = e.target.value;
+          updatePathPreview();
+        });
+      });
+    }
+
+    async function onMagnetInput(e) {
+      const magnet = e.target.value.trim();
+      clearTimeout(analyzeTimeout);
+
+      if (!magnet.startsWith('magnet:')) {
+        document.getElementById('detected-info').innerHTML = '';
+        document.getElementById('submit-btn').disabled = true;
+        return;
+      }
+
+      // Debounce
+      analyzeTimeout = setTimeout(async () => {
+        const result = await api('/api/analyze', 'POST', { magnet });
+
+        if (result.success) {
+          document.getElementById('detected-info').innerHTML =
+            `Detected: <strong>${result.name || 'Unknown'}</strong>`;
+
+          currentMetadata = result.metadata || {};
+          selectCategory(result.detected_category);
+          document.getElementById('submit-btn').disabled = false;
+        } else {
+          document.getElementById('detected-info').innerHTML =
+            `<span style="color: var(--error)">${result.error}</span>`;
+          document.getElementById('submit-btn').disabled = true;
+        }
+      }, 300);
+    }
+
+    async function updatePathPreview() {
+      if (!selectedCategory) return;
+
+      const result = await api('/api/preview', 'POST', {
+        category: selectedCategory,
+        metadata: currentMetadata
+      });
+
+      document.getElementById('path-preview').textContent = result.path || '—';
+    }
+
+    async function onSubmit() {
+      const btn = document.getElementById('submit-btn');
+      const magnet = document.getElementById('magnet').value.trim();
+
+      btn.disabled = true;
+      btn.textContent = 'Adding...';
+
+      try {
+        const result = await api('/api/add', 'POST', {
+          magnet,
+          category: selectedCategory,
+          metadata: currentMetadata
+        });
+
+        showMessage(
+          result.success,
+          result.success
+            ? `Added: ${result.name}${result.duplicate ? ' (already existed)' : ''}`
+            : result.error
+        );
+
+        if (result.success && !result.duplicate) {
+          // Clear form
+          document.getElementById('magnet').value = '';
+          document.getElementById('detected-info').innerHTML = '';
+          document.getElementById('path-preview').textContent = '—';
+          currentMetadata = {};
+        }
+      } catch (err) {
+        showMessage(false, 'Failed to connect to server');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Add Download';
+    }
+
+    function showMessage(success, text) {
+      const el = document.getElementById('message');
+      el.className = 'message visible ' + (success ? 'success' : 'error');
+      el.textContent = text;
+      setTimeout(() => el.classList.remove('visible'), 5000);
+    }
+
+    init();
+  </script>
+</body>
+</html>

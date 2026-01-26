@@ -1,0 +1,70 @@
+# Download Categories
+#
+# Path templates use friendly placeholders:
+#   {title}      - Content title
+#   {year}       - Release year
+#   {show_name}  - TV show name
+#   {season}     - Season number (01, 02, etc.)
+#   {author}     - Author name (for books)
+#   {artist}     - Artist name (for music)
+#   {album}      - Album name (for music)
+#
+# The system will try to auto-detect these from the torrent name,
+# but you can always adjust them before downloading.
+
+categories:
+  movie:
+    name: "Movie"
+    path: "Movies/{title} ({year})"
+    # Example: Movies/Inception (2010)
+    fields:
+      - title
+      - year
+
+  show:
+    name: "TV Show"
+    path: "TV Shows/{show_name}/Season {season}"
+    # Example: TV Shows/Breaking Bad/Season 05
+    fields:
+      - show_name
+      - season
+
+  book:
+    name: "Book"
+    path: "Books/{author}"
+    # Example: Books/Stephen King
+    fields:
+      - author
+      - title
+
+  audiobook:
+    name: "Audiobook"
+    path: "Audiobooks/{author}/{title}"
+    # Example: Audiobooks/Brandon Sanderson/Mistborn
+    fields:
+      - author
+      - title
+
+  music:
+    name: "Music"
+    path: "Music/{artist}/{album}"
+    # Example: Music/Pink Floyd/Dark Side of the Moon
+    fields:
+      - artist
+      - album
+
+  software:
+    name: "Software"
+    path: "Software"
+    fields: []
+
+  game:
+    name: "Game"
+    path: "Games"
+    fields: []
+
+  other:
+    name: "Other"
+    path: "Downloads"
+    fields: []
+    default: true
