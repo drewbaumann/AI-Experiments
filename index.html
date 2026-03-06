@@ -235,6 +235,20 @@
       z-index: 61;
     }
 
+    /* Stage glow — separate from kiss, stays in place */
+    .stage-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,30,58,0.15) 0%, rgba(232,67,147,0.08) 30%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+    }
+
     /* Ground line for scenes */
     .ground-line {
       position: absolute;
@@ -303,6 +317,9 @@
         <line x1="60" y1="145" x2="70" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
       </svg>
 
+      <!-- Separate stage glow (stays in place, does NOT move with kiss) -->
+      <div class="stage-glow"></div>
+
       <!-- Falling Kiss Logo -->
       <svg class="kiss-logo" width="220" height="160" viewBox="0 0 220 160">
         <defs>
@@ -310,24 +327,17 @@
             <stop offset="0%" stop-color="#e84393"/>
             <stop offset="100%" stop-color="#c41e3a"/>
           </radialGradient>
-          <filter id="kissGlow">
-            <feGaussianBlur stdDeviation="4" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
         </defs>
-        <!-- Lips shape -->
-        <g filter="url(#kissGlow)">
-          <!-- Upper lip -->
-          <path d="M30,80 Q50,20 110,40 Q120,42 110,40 Q170,20 190,80" fill="url(#kissGrad)" />
-          <!-- Lower lip -->
-          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="url(#kissGrad)" />
-          <!-- Cupid's bow -->
-          <path d="M80,55 Q95,40 110,50 Q125,40 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.5"/>
-          <!-- Highlight -->
-          <ellipse cx="85" cy="100" rx="20" ry="10" fill="rgba(255,255,255,0.08)"/>
-          <!-- Lip line -->
-          <path d="M40,80 Q70,90 110,85 Q150,90 180,80" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
-        </g>
+        <!-- Upper lip — left side -->
+        <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="url(#kissGrad)" />
+        <!-- Lower lip -->
+        <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="url(#kissGrad)" />
+        <!-- Cupid's bow highlight -->
+        <path d="M80,55 Q95,42 110,52 Q125,42 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.4"/>
+        <!-- Lower lip highlight -->
+        <ellipse cx="110" cy="110" rx="25" ry="10" fill="rgba(255,255,255,0.07)"/>
+        <!-- Lip line (seam) -->
+        <path d="M35,85 Q70,95 110,90 Q150,95 185,85" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
       </svg>
     </div>
   </section>
@@ -346,9 +356,9 @@
           </radialGradient>
         </defs>
         <g>
-          <path d="M30,80 Q50,20 110,40 Q120,42 110,40 Q170,20 190,80" fill="url(#kissGrad2)" />
-          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="url(#kissGrad2)" />
-          <path d="M40,80 Q70,90 110,85 Q150,90 180,80" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+          <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="url(#kissGrad2)" />
+          <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="url(#kissGrad2)" />
+          <path d="M35,85 Q70,95 110,90 Q150,95 185,85" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
         </g>
       </svg>
 
@@ -365,8 +375,8 @@
             <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
             <!-- Kiss mark on pen -->
             <g transform="translate(42, 95) scale(0.25)">
-              <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
-              <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="#c41e3a" opacity="0.8"/>
             </g>
             <!-- LED -->
             <circle cx="60" cy="125" r="3" fill="#c41e3a" opacity="0.8"/>
@@ -389,8 +399,8 @@
             <circle cx="62" cy="45" r="1.5" fill="#333"/>
             <circle cx="65" cy="52" r="1.5" fill="#333"/>
             <g transform="translate(42, 95) scale(0.25)">
-              <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
-              <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="#c41e3a" opacity="0.8"/>
             </g>
             <circle cx="60" cy="125" r="3" fill="#4ade80" opacity="0.8"/>
           </svg>
@@ -411,8 +421,8 @@
             <circle cx="65" cy="50" r="6" fill="rgba(129,140,248,0.25)" stroke="#818cf8" stroke-width="0.5"/>
             <circle cx="58" cy="55" r="5" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="0.5"/>
             <g transform="translate(42, 95) scale(0.25)">
-              <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
-              <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="#c41e3a" opacity="0.8"/>
             </g>
             <circle cx="60" cy="125" r="3" fill="#818cf8" opacity="0.8"/>
           </svg>
@@ -492,10 +502,10 @@
           </filter>
         </defs>
         <g filter="url(#finalGlow)">
-          <path d="M30,80 Q50,20 110,40 Q120,42 110,40 Q170,20 190,80" fill="url(#kissGrad3)" />
-          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="url(#kissGrad3)" />
-          <path d="M80,55 Q95,40 110,50 Q125,40 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.5"/>
-          <path d="M40,80 Q70,90 110,85 Q150,90 180,80" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+          <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="url(#kissGrad3)" />
+          <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="url(#kissGrad3)" />
+          <path d="M80,55 Q95,42 110,52 Q125,42 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.4"/>
+          <path d="M35,85 Q70,95 110,90 Q150,95 185,85" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
         </g>
       </svg>
 
@@ -551,17 +561,45 @@
         attr: { x2: 70, y2: 40 },
         duration: 1.5
       }, 1.2)
-      // Kiss logo grows to fill most of the screen
+      // Stage glow appears separately (not on the kiss)
+      .to(".stage-glow", {
+        opacity: 1,
+        scale: 1.5,
+        duration: 2,
+        ease: "power1.in"
+      }, 2.5)
+      // Kiss logo grows large
       .to(".kiss-logo", {
         scale: 4.5,
         y: 100,
         duration: 3,
         ease: "power2.inOut"
       }, 3.5)
+      // Stage glow grows even bigger
+      .to(".stage-glow", {
+        scale: 3,
+        width: 800,
+        height: 800,
+        duration: 2
+      }, 4)
       // Silhouette fades behind it
       .to(".silhouette", { opacity: 0, duration: 1 }, 4)
       // Spotlight goes dark
-      .to(".spotlight", { opacity: 0, duration: 1 }, 5);
+      .to(".spotlight", { opacity: 0, duration: 1 }, 5)
+      // Kiss shrinks back to small size before scene 2
+      .to(".kiss-logo", {
+        scale: 0.6,
+        y: 250,
+        duration: 2,
+        ease: "power2.in"
+      }, 6)
+      // Glow stays large and fades slowly
+      .to(".stage-glow", {
+        opacity: 0,
+        scale: 4,
+        duration: 2,
+        ease: "power1.out"
+      }, 6.5);
 
 
     // ===========================
@@ -619,8 +657,8 @@
       `;
       kiss.innerHTML = `
         <svg width="60" height="45" viewBox="0 0 220 160">
-          <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
-          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
+          <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
+          <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
         </svg>
       `;
       chaseContainer.appendChild(kiss);
