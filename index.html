@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BE$OS — Dame Un Beso</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&family=Luckiest+Guy&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -490,51 +490,9 @@
       <!-- Blackout overlay -->
       <div class="blackout-overlay"></div>
 
-      <!-- Final Besos Logo — brand logo recreation -->
+      <!-- Final Besos Logo — actual brand image -->
       <div class="final-logo">
-        <div class="logo-container" style="position:relative; display:inline-block;">
-          <!-- Kiss mark — realistic lipstick print, positioned top right -->
-          <svg class="kiss-stamp" width="120" height="110" viewBox="0 0 220 200"
-               style="position:absolute; top:-60px; right:-30px; transform:rotate(-20deg);">
-            <defs>
-              <filter id="finalKissGlow">
-                <feGaussianBlur stdDeviation="2" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-            <g filter="url(#finalKissGlow)">
-              <!-- Upper lip -->
-              <path d="M38,90 C34,68 48,40 72,34 C84,30 96,38 104,50 L110,42 L116,50 C124,38 136,30 148,34 C172,40 186,68 182,90 C170,86 148,80 130,86 C120,90 110,90 110,88 C100,90 90,90 80,86 C62,80 50,86 38,90 Z" fill="#d42030"/>
-              <!-- Upper lip texture -->
-              <path d="M55,50 C58,58 56,72 54,85" stroke="#b01a28" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"/>
-              <path d="M75,40 C76,50 74,66 76,84" stroke="#b01a28" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
-              <path d="M95,36 C96,48 94,68 98,86" stroke="#b01a28" stroke-width="1.8" fill="none" opacity="0.5" stroke-linecap="round"/>
-              <path d="M125,36 C124,48 126,68 122,86" stroke="#b01a28" stroke-width="1.8" fill="none" opacity="0.5" stroke-linecap="round"/>
-              <path d="M145,40 C144,50 146,66 144,84" stroke="#b01a28" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
-              <path d="M165,50 C162,58 164,72 166,85" stroke="#b01a28" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"/>
-              <!-- Smudge gaps in upper lip -->
-              <path d="M65,55 L68,70" stroke="#0a0a0a" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
-              <path d="M150,52 L148,68" stroke="#0a0a0a" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
-              <!-- Lower lip -->
-              <path d="M44,100 C42,104 36,126 48,150 C60,168 86,180 110,182 C134,180 160,168 172,150 C184,126 178,104 176,100 C162,106 140,98 126,102 C116,106 110,106 104,102 C90,98 58,106 44,100 Z" fill="#d42030"/>
-              <!-- Lower lip texture -->
-              <path d="M60,106 C58,118 56,136 62,156" stroke="#b01a28" stroke-width="2.5" fill="none" opacity="0.5" stroke-linecap="round"/>
-              <path d="M85,102 C84,118 82,142 88,170" stroke="#b01a28" stroke-width="2" fill="none" opacity="0.45" stroke-linecap="round"/>
-              <path d="M110,100 C110,120 110,148 110,178" stroke="#b01a28" stroke-width="1.8" fill="none" opacity="0.35" stroke-linecap="round"/>
-              <path d="M135,102 C136,118 138,142 132,170" stroke="#b01a28" stroke-width="2" fill="none" opacity="0.45" stroke-linecap="round"/>
-              <path d="M160,106 C162,118 164,136 158,156" stroke="#b01a28" stroke-width="2.5" fill="none" opacity="0.5" stroke-linecap="round"/>
-              <!-- Smudge gaps in lower lip -->
-              <path d="M72,120 L74,132" stroke="#0a0a0a" stroke-width="1.2" opacity="0.25" stroke-linecap="round"/>
-              <path d="M148,118 L146,130" stroke="#0a0a0a" stroke-width="1.2" opacity="0.25" stroke-linecap="round"/>
-              <!-- Cupid's bow highlight -->
-              <path d="M92,88 C98,84 102,82 110,86 C118,82 122,84 128,88" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none" stroke-linecap="round"/>
-            </g>
-          </svg>
-          <!-- "Be$os" text — white bubbly font with dark outline -->
-          <div class="besos-text" style="font-family:'Luckiest Guy',cursive; font-size:7rem; color:white; letter-spacing:4px; line-height:1; paint-order:stroke fill; -webkit-text-stroke:5px #111; text-shadow: 0 0 40px rgba(255,255,255,0.15);">
-            Be$os<span style="font-family:Inter,sans-serif; font-size:0.9rem; vertical-align:super; -webkit-text-stroke:0; opacity:0.5; margin-left:2px;">®</span>
-          </div>
-        </div>
+        <img src="besos-logo-white-rt.png" alt="Be$os" style="max-width:600px; width:80vw; height:auto;">
         <div class="tagline">Dame Un Beso · Para La Cultura</div>
       </div>
     </div>
