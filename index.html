@@ -68,12 +68,15 @@
       transform-origin: bottom center;
     }
 
-    /* Kiss logo */
+    /* Kiss logo — large from the start, falls over the guy */
     .kiss-logo {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      top: -200px;
+      top: -90vh;
+      width: 80vw;
+      max-width: 700px;
+      height: auto;
     }
 
     /* ===== SCENE 2: Product Reveal ===== */
@@ -304,8 +307,8 @@
       <!-- Separate stage glow (stays in place, does NOT move with kiss) -->
       <div class="stage-glow"></div>
 
-      <!-- Falling Kiss Logo — real lips PNG -->
-      <img class="kiss-logo" src="besos-lips-logo.png" alt="" width="180" height="160">
+      <!-- Falling Kiss Logo — real lips PNG, large from start -->
+      <img class="kiss-logo" src="besos-lips-logo.png" alt="">
     </div>
   </section>
 
@@ -470,70 +473,60 @@
       }
     });
 
-    // Kiss logo falls from above
+    // Large kiss falls from above, lands over the guy
     scene1Tl
+      // Kiss drops from above the viewport onto the stage
       .fromTo(".kiss-logo",
-        { y: -200, scale: 0.5, rotation: -15 },
-        { y: 280, scale: 1, rotation: 0, duration: 3, ease: "bounce.out" }
+        { y: 0 },
+        { y: "105vh", duration: 3, ease: "power2.in" }
       )
       // Spotlight intensifies as kiss falls
       .to(".spotlight", {
         background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
         duration: 2
       }, 0)
-      // Silhouette cowers back — lean back, arms up
+      // Silhouette looks up, then cowers as kiss approaches
       .to(".silhouette", {
         x: -30,
         rotation: -15,
-        duration: 2
-      }, 1)
+        duration: 1.5
+      }, 1.5)
       .to(".silhouette .left-arm", {
         attr: { x2: 5, y2: 40 },
-        duration: 1.5
-      }, 1.2)
+        duration: 1
+      }, 1.8)
       .to(".silhouette .right-arm", {
         attr: { x2: 70, y2: 40 },
-        duration: 1.5
-      }, 1.2)
-      // Stage glow appears separately (not on the kiss)
+        duration: 1
+      }, 1.8)
+      // Stage glow appears as kiss lands
       .to(".stage-glow", {
         opacity: 1,
         scale: 1.5,
         duration: 2,
         ease: "power1.in"
-      }, 2.5)
-      // Kiss logo grows large
+      }, 2)
+      // Silhouette disappears behind the kiss as it covers him
+      .to(".silhouette", { opacity: 0, duration: 0.8 }, 2.5)
+      // Kiss has landed — hold it there briefly
+      // Then shrink it down to rolling size and reposition to bottom
       .to(".kiss-logo", {
-        scale: 4.5,
-        y: 100,
-        duration: 3,
+        width: "120px",
+        top: "auto",
+        bottom: "100px",
+        y: 0,
+        duration: 2.5,
         ease: "power2.inOut"
-      }, 3.5)
-      // Stage glow grows even bigger
-      .to(".stage-glow", {
-        scale: 3,
-        width: 800,
-        height: 800,
-        duration: 2
       }, 4)
-      // Silhouette fades behind it
-      .to(".silhouette", { opacity: 0, duration: 1 }, 4)
-      // Spotlight goes dark
-      .to(".spotlight", { opacity: 0, duration: 1 }, 5)
-      // Kiss shrinks back to small size before scene 2
-      .to(".kiss-logo", {
-        scale: 0.6,
-        y: 250,
-        duration: 2,
-        ease: "power2.in"
-      }, 6)
-      // Glow stays large and fades slowly
+      // Spotlight fades
+      .to(".spotlight", { opacity: 0, duration: 1.5 }, 4.5)
+      // Glow fades
       .to(".stage-glow", {
         opacity: 0,
-        scale: 4,
+        scale: 3,
         duration: 2,
         ease: "power1.out"
-      }, 6.5);
+      }, 5);
 
 
     // ===========================
