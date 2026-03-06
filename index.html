@@ -320,24 +320,33 @@
       <!-- Separate stage glow (stays in place, does NOT move with kiss) -->
       <div class="stage-glow"></div>
 
-      <!-- Falling Kiss Logo -->
-      <svg class="kiss-logo" width="220" height="160" viewBox="0 0 220 160">
-        <defs>
-          <radialGradient id="kissGrad" cx="50%" cy="40%" r="50%">
-            <stop offset="0%" stop-color="#e84393"/>
-            <stop offset="100%" stop-color="#c41e3a"/>
-          </radialGradient>
-        </defs>
-        <!-- Upper lip — left side -->
-        <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="url(#kissGrad)" />
-        <!-- Lower lip -->
-        <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="url(#kissGrad)" />
-        <!-- Cupid's bow highlight -->
-        <path d="M80,55 Q95,42 110,52 Q125,42 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.4"/>
-        <!-- Lower lip highlight -->
-        <ellipse cx="110" cy="110" rx="25" ry="10" fill="rgba(255,255,255,0.07)"/>
-        <!-- Lip line (seam) -->
-        <path d="M35,85 Q70,95 110,90 Q150,95 185,85" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <!-- Falling Kiss Logo — lipstick print style -->
+      <svg class="kiss-logo" width="220" height="200" viewBox="0 0 220 200">
+        <g transform="rotate(-12, 110, 100)">
+          <!-- Upper lip print -->
+          <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233"/>
+          <!-- Lower lip print -->
+          <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233"/>
+          <!-- Lip crease texture lines — upper lip -->
+          <path d="M60,55 C62,62 60,75 58,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <path d="M75,47 C76,55 74,70 73,84" stroke="#a01a28" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
+          <path d="M90,46 C91,54 90,68 92,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M110,40 C110,50 110,60 110,86" stroke="#a01a28" stroke-width="1.3" fill="none" opacity="0.35" stroke-linecap="round"/>
+          <path d="M130,46 C129,54 130,68 128,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M145,47 C144,55 146,70 147,84" stroke="#a01a28" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
+          <path d="M160,55 C158,62 160,75 162,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <!-- Lip crease texture lines — lower lip -->
+          <path d="M65,100 C63,112 60,130 65,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M80,98 C78,112 77,132 82,155" stroke="#a01a28" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
+          <path d="M95,97 C94,110 93,135 100,160" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.35" stroke-linecap="round"/>
+          <path d="M110,98 C110,115 110,140 110,168" stroke="#a01a28" stroke-width="1.3" fill="none" opacity="0.3" stroke-linecap="round"/>
+          <path d="M125,97 C126,110 127,135 120,160" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.35" stroke-linecap="round"/>
+          <path d="M140,98 C142,112 143,132 138,155" stroke="#a01a28" stroke-width="1.2" fill="none" opacity="0.4" stroke-linecap="round"/>
+          <path d="M155,100 C157,112 160,130 155,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <!-- Slight smudge highlights -->
+          <ellipse cx="90" cy="130" rx="18" ry="12" fill="rgba(220,50,60,0.15)"/>
+          <ellipse cx="135" cy="125" rx="15" ry="10" fill="rgba(220,50,60,0.12)"/>
+        </g>
       </svg>
     </div>
   </section>
@@ -347,18 +356,18 @@
     <div id="scene2-pin">
       <div class="ground-line"></div>
 
-      <!-- Rolling kiss (same SVG, will animate) -->
-      <svg class="rolling-kiss" width="120" height="90" viewBox="0 0 220 160">
-        <defs>
-          <radialGradient id="kissGrad2" cx="50%" cy="40%" r="50%">
-            <stop offset="0%" stop-color="#e84393"/>
-            <stop offset="100%" stop-color="#c41e3a"/>
-          </radialGradient>
-        </defs>
-        <g>
-          <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="url(#kissGrad2)" />
-          <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="url(#kissGrad2)" />
-          <path d="M35,85 Q70,95 110,90 Q150,95 185,85" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <!-- Rolling kiss — lipstick print -->
+      <svg class="rolling-kiss" width="120" height="110" viewBox="0 0 220 200">
+        <g transform="rotate(-12, 110, 100)">
+          <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233"/>
+          <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233"/>
+          <path d="M60,55 C62,62 60,75 58,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <path d="M90,46 C91,54 90,68 92,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M130,46 C129,54 130,68 128,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M160,55 C158,62 160,75 162,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <path d="M65,100 C63,112 60,130 65,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M110,98 C110,115 110,140 110,168" stroke="#a01a28" stroke-width="1.3" fill="none" opacity="0.3" stroke-linecap="round"/>
+          <path d="M155,100 C157,112 160,130 155,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
         </g>
       </svg>
 
@@ -374,9 +383,11 @@
             <!-- Mouthpiece -->
             <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
             <!-- Kiss mark on pen -->
-            <g transform="translate(42, 95) scale(0.25)">
-              <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="#c41e3a" opacity="0.8"/>
-              <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="#c41e3a" opacity="0.8"/>
+            <g transform="translate(38, 90) scale(0.2)">
+              <g transform="rotate(-12, 110, 100)">
+                <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233" opacity="0.8"/>
+                <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233" opacity="0.8"/>
+              </g>
             </g>
             <!-- LED -->
             <circle cx="60" cy="125" r="3" fill="#c41e3a" opacity="0.8"/>
@@ -398,9 +409,11 @@
             <circle cx="55" cy="48" r="1.5" fill="#333"/>
             <circle cx="62" cy="45" r="1.5" fill="#333"/>
             <circle cx="65" cy="52" r="1.5" fill="#333"/>
-            <g transform="translate(42, 95) scale(0.25)">
-              <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="#c41e3a" opacity="0.8"/>
-              <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="#c41e3a" opacity="0.8"/>
+            <g transform="translate(38, 90) scale(0.2)">
+              <g transform="rotate(-12, 110, 100)">
+                <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233" opacity="0.8"/>
+                <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233" opacity="0.8"/>
+              </g>
             </g>
             <circle cx="60" cy="125" r="3" fill="#4ade80" opacity="0.8"/>
           </svg>
@@ -420,9 +433,11 @@
             <circle cx="55" cy="45" r="7" fill="rgba(129,140,248,0.3)" stroke="#818cf8" stroke-width="0.5"/>
             <circle cx="65" cy="50" r="6" fill="rgba(129,140,248,0.25)" stroke="#818cf8" stroke-width="0.5"/>
             <circle cx="58" cy="55" r="5" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="0.5"/>
-            <g transform="translate(42, 95) scale(0.25)">
-              <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="#c41e3a" opacity="0.8"/>
-              <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="#c41e3a" opacity="0.8"/>
+            <g transform="translate(38, 90) scale(0.2)">
+              <g transform="rotate(-12, 110, 100)">
+                <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233" opacity="0.8"/>
+                <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233" opacity="0.8"/>
+              </g>
             </g>
             <circle cx="60" cy="125" r="3" fill="#818cf8" opacity="0.8"/>
           </svg>
@@ -446,9 +461,11 @@
               <polygon points="50,12 70,12 68,5 52,5" fill="rgba(255,100,0,0.3)"/>
               <polygon points="52,5 68,5 65,0 55,0" fill="rgba(255,60,0,0.2)"/>
               <!-- Kiss mark -->
-              <g transform="translate(42, 95) scale(0.22)">
-                <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
-                <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+              <g transform="translate(38, 90) scale(0.18)">
+                <g transform="rotate(-12, 110, 100)">
+                  <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233" opacity="0.8"/>
+                  <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233" opacity="0.8"/>
+                </g>
               </g>
             </g>
             <!-- Coffin shape accent -->
@@ -490,22 +507,23 @@
       <div class="blackout-overlay"></div>
 
       <!-- Final Besos Logo -->
-      <svg class="final-kiss-logo" width="160" height="120" viewBox="0 0 220 160">
+      <svg class="final-kiss-logo" width="160" height="140" viewBox="0 0 220 200">
         <defs>
-          <radialGradient id="kissGrad3" cx="50%" cy="40%" r="50%">
-            <stop offset="0%" stop-color="#e84393"/>
-            <stop offset="100%" stop-color="#c41e3a"/>
-          </radialGradient>
           <filter id="finalGlow">
-            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feGaussianBlur stdDeviation="6" result="blur"/>
             <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <g filter="url(#finalGlow)">
-          <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="url(#kissGrad3)" />
-          <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="url(#kissGrad3)" />
-          <path d="M80,55 Q95,42 110,52 Q125,42 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.4"/>
-          <path d="M35,85 Q70,95 110,90 Q150,95 185,85" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        <g filter="url(#finalGlow)" transform="rotate(-12, 110, 100)">
+          <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233"/>
+          <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233"/>
+          <path d="M60,55 C62,62 60,75 58,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <path d="M90,46 C91,54 90,68 92,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M130,46 C129,54 130,68 128,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M160,55 C158,62 160,75 162,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+          <path d="M65,100 C63,112 60,130 65,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+          <path d="M110,98 C110,115 110,140 110,168" stroke="#a01a28" stroke-width="1.3" fill="none" opacity="0.3" stroke-linecap="round"/>
+          <path d="M155,100 C157,112 160,130 155,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
         </g>
       </svg>
 
@@ -655,10 +673,13 @@
         opacity: ${0.4 + Math.random() * 0.6};
         transform: scale(${0.3 + Math.random() * 0.7});
       `;
+      const color = Math.random() > 0.5 ? '#cc2233' : '#d43050';
       kiss.innerHTML = `
-        <svg width="60" height="45" viewBox="0 0 220 160">
-          <path d="M30,85 C30,85 45,30 80,50 C90,55 95,45 110,45 C125,45 130,55 140,50 C175,30 190,85 190,85" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
-          <path d="M30,85 C50,90 75,135 110,135 C145,135 170,90 190,85" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
+        <svg width="60" height="55" viewBox="0 0 220 200">
+          <g transform="rotate(-12, 110, 100)">
+            <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="${color}"/>
+            <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="${color}"/>
+          </g>
         </svg>
       `;
       chaseContainer.appendChild(kiss);
