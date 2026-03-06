@@ -1,0 +1,92 @@
+[
+  {
+    "file": "cower_01.png",
+    "width": 236,
+    "height": 235
+  },
+  {
+    "file": "cower_02.png",
+    "width": 241,
+    "height": 245
+  },
+  {
+    "file": "cower_03.png",
+    "width": 241,
+    "height": 245
+  },
+  {
+    "file": "cower_04.png",
+    "width": 241,
+    "height": 245
+  },
+  {
+    "file": "cower_05.png",
+    "width": 242,
+    "height": 245
+  },
+  {
+    "file": "cower_06.png",
+    "width": 242,
+    "height": 245
+  },
+  {
+    "file": "run_01.png",
+    "width": 225,
+    "height": 213
+  },
+  {
+    "file": "run_02.png",
+    "width": 241,
+    "height": 235
+  },
+  {
+    "file": "run_03.png",
+    "width": 241,
+    "height": 235
+  },
+  {
+    "file": "run_04.png",
+    "width": 241,
+    "height": 235
+  },
+  {
+    "file": "run_05.png",
+    "width": 242,
+    "height": 235
+  },
+  {
+    "file": "run_06.png",
+    "width": 242,
+    "height": 235
+  },
+  {
+    "file": "stand_01.png",
+    "width": 236,
+    "height": 239
+  },
+  {
+    "file": "stand_02.png",
+    "width": 240,
+    "height": 239
+  },
+  {
+    "file": "stand_03.png",
+    "width": 241,
+    "height": 239
+  },
+  {
+    "file": "stand_04.png",
+    "width": 241,
+    "height": 239
+  },
+  {
+    "file": "stand_05.png",
+    "width": 242,
+    "height": 239
+  },
+  {
+    "file": "stand_06.png",
+    "width": 242,
+    "height": 239
+  }
+]
