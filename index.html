@@ -93,15 +93,7 @@
       background: var(--besos-dark);
     }
 
-    .rolling-kiss {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80vw;
-      max-width: 700px;
-      height: auto;
-    }
+
 
     .products-container {
       position: absolute;
@@ -320,9 +312,6 @@
     <div id="scene2-pin">
       <div class="ground-line"></div>
 
-      <!-- Rolling kiss — same large size, rolls away slowly -->
-      <img class="rolling-kiss" src="besos-lips-logo.png" alt="">
-
       <!-- Products -->
       <div class="products-container">
         <!-- Product 1: Disposable -->
@@ -525,7 +514,14 @@
         scale: 3,
         duration: 2,
         ease: "power1.out"
-      }, 4.5);
+      }, 4.5)
+      // Kiss rolls away slowly to the right — same size, same frame
+      .to(".kiss-logo", {
+        x: window.innerWidth + 200,
+        rotation: 360,
+        duration: 5,
+        ease: "none"
+      }, 5.5);
 
 
     // ===========================
@@ -541,14 +537,9 @@
       }
     });
 
-    // Kiss rolls away slowly to the right at full size
+    // Products container fades in
     scene2Tl
-      .fromTo(".rolling-kiss",
-        { x: 0, rotation: 0 },
-        { x: window.innerWidth + 200, rotation: 360, duration: 5, ease: "none" }
-      )
-      // Products container fades in
-      .to(".products-container", { opacity: 1, duration: 0.5 }, 1.5)
+      .to(".products-container", { opacity: 1, duration: 0.5 }, 0)
       // Each product card pops in with stagger
       .to(".product-card", {
         opacity: 1,
