@@ -68,12 +68,12 @@
       transform-origin: bottom center;
     }
 
-    /* Kiss logo — large from the start, falls over the guy */
+    /* Kiss logo — large, starts above viewport, lands at bottom */
     .kiss-logo {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      top: -90vh;
+      top: -60vw;
       width: 80vw;
       max-width: 700px;
       height: auto;
@@ -95,9 +95,12 @@
 
     .rolling-kiss {
       position: absolute;
-      bottom: 100px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
+      width: 80vw;
+      max-width: 700px;
+      height: auto;
     }
 
     .products-container {
@@ -317,8 +320,8 @@
     <div id="scene2-pin">
       <div class="ground-line"></div>
 
-      <!-- Rolling kiss — real lips PNG -->
-      <img class="rolling-kiss" src="besos-lips-logo.png" alt="" width="120" height="107">
+      <!-- Rolling kiss — same large size, rolls away slowly -->
+      <img class="rolling-kiss" src="besos-lips-logo.png" alt="">
 
       <!-- Products -->
       <div class="products-container">
@@ -473,13 +476,19 @@
       }
     });
 
-    // Large kiss falls from above, lands over the guy
+    // Large kiss falls from above, lands at bottom where "scroll to begin" is
+    const kissImg = document.querySelector(".kiss-logo");
+    // Calculate how far kiss needs to travel: from top:-60vw to bottom:30px
+    const kissLandY = window.innerHeight + kissImg.offsetHeight * 0.5;
+
     scene1Tl
-      // Kiss drops from above the viewport onto the stage
+      // Kiss drops from above viewport to the bottom of the screen
       .fromTo(".kiss-logo",
         { y: 0 },
-        { y: "105vh", duration: 3, ease: "power2.in" }
+        { y: kissLandY, duration: 3, ease: "power2.in" }
       )
+      // Hide scroll hint as kiss starts falling
+      .to(".scroll-hint", { opacity: 0, duration: 0.5 }, 0)
       // Spotlight intensifies as kiss falls
       .to(".spotlight", {
         background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
@@ -508,25 +517,15 @@
       }, 2)
       // Silhouette disappears behind the kiss as it covers him
       .to(".silhouette", { opacity: 0, duration: 0.8 }, 2.5)
-      // Kiss has landed — hold it there briefly
-      // Then shrink it down to rolling size and reposition to bottom
-      .to(".kiss-logo", {
-        width: "120px",
-        top: "auto",
-        bottom: "100px",
-        y: 0,
-        duration: 2.5,
-        ease: "power2.inOut"
-      }, 4)
       // Spotlight fades
-      .to(".spotlight", { opacity: 0, duration: 1.5 }, 4.5)
+      .to(".spotlight", { opacity: 0, duration: 1.5 }, 4)
       // Glow fades
       .to(".stage-glow", {
         opacity: 0,
         scale: 3,
         duration: 2,
         ease: "power1.out"
-      }, 5);
+      }, 4.5);
 
 
     // ===========================
@@ -542,11 +541,11 @@
       }
     });
 
-    // Kiss rolls away to the right
+    // Kiss rolls away slowly to the right at full size
     scene2Tl
       .fromTo(".rolling-kiss",
         { x: 0, rotation: 0 },
-        { x: window.innerWidth + 200, rotation: 720, duration: 3, ease: "power1.in" }
+        { x: window.innerWidth + 200, rotation: 360, duration: 5, ease: "none" }
       )
       // Products container fades in
       .to(".products-container", { opacity: 1, duration: 0.5 }, 1.5)
