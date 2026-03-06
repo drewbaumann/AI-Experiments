@@ -64,7 +64,9 @@
       background: linear-gradient(to top, #1a1a1a 0%, transparent 100%);
     }
 
-    /* Sprite-based silhouette (idle = row 2, cower = row 1) */
+    /* Sprite-based silhouette
+       Row 1 (y=0) = cower, Row 2 (y=-341) = idle, Row 3 (y=-682) = run
+       Each row: 8 frames, 192px wide, 341px tall */
     .silhouette {
       position: absolute;
       bottom: 80px;
@@ -75,14 +77,15 @@
       background-size: 1536px 1024px;
       transform: translateX(-50%) scale(0.5);
       transform-origin: bottom center;
+      mix-blend-mode: lighten;
     }
     .silhouette.cowering {
       background-position-y: 0;
-      animation: cowerCycle 0.8s steps(7) infinite;
+      animation: cowerCycle 0.8s steps(8) infinite;
     }
     @keyframes cowerCycle {
       from { background-position-x: 0; }
-      to { background-position-x: -1344px; }
+      to { background-position-x: -1536px; }
     }
 
     /* Kiss logo — large, starts above viewport */
@@ -192,6 +195,7 @@
       background-size: 1536px 1024px;
       transform: scale(0.6);
       transform-origin: bottom center;
+      mix-blend-mode: lighten;
     }
     .runner.running {
       visibility: visible;
@@ -249,23 +253,36 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.05) 80%, transparent);
     }
 
-    /* Scroll hint */
     /* ---- Responsive ---- */
     @media (max-width: 768px) {
       .products-container {
-        flex-direction: column;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
         padding: 20px;
-        overflow-y: auto;
+        align-content: center;
       }
       .product-card {
-        width: 85vw;
-        max-width: 300px;
-        padding: 20px;
+        width: auto;
+        padding: 16px;
       }
       .product-card .product-icon {
-        width: 80px;
-        height: 110px;
+        width: 60px;
+        height: 80px;
+      }
+      .product-card h3 {
+        font-size: 1.1rem;
+      }
+      .product-card p {
+        font-size: 0.7rem;
+        line-height: 1.3;
+      }
+      .product-card .strain {
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+      }
+      .product-card .thc {
+        font-size: 0.7rem;
       }
       .stage-glow {
         width: 300px;
@@ -283,20 +300,25 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 400px) {
       .products-container {
-        gap: 15px;
-        padding: 15px;
+        gap: 8px;
+        padding: 12px;
       }
       .product-card {
-        width: 90vw;
-        padding: 16px;
+        padding: 12px;
+        border-radius: 12px;
+      }
+      .product-card .product-icon {
+        width: 50px;
+        height: 70px;
+        margin-bottom: 8px;
       }
       .product-card h3 {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
       }
       .product-card p {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
       }
       .silhouette {
         transform: translateX(-50%) scale(0.35);
@@ -310,6 +332,7 @@
       }
     }
 
+    /* Scroll hint */
     .scroll-hint {
       position: fixed;
       bottom: 30px;
@@ -470,14 +493,18 @@
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
 
-    // Generate chase kisses — flood the entire screen
+    const isMobile = window.innerWidth < 768;
+    const silhouetteEl = document.querySelector(".silhouette");
+    const runnerEl = document.querySelector(".runner");
+
+    // Generate chase kisses — fewer on mobile for performance
     const chaseContainer = document.getElementById("chase-kisses");
-    const numKisses = 80;
+    const numKisses = isMobile ? 30 : 80;
     for (let i = 0; i < numKisses; i++) {
       const kiss = document.createElement("div");
       kiss.className = "chase-kiss";
       const bottomPos = 20 + Math.random() * (window.innerHeight - 100);
-      const size = 40 + Math.random() * 80;
+      const size = isMobile ? (30 + Math.random() * 50) : (40 + Math.random() * 80);
       kiss.style.cssText = `
         position: absolute;
         bottom: ${bottomPos}px;
@@ -501,6 +528,7 @@
         start: "top top",
         end: "bottom bottom",
         scrub: 1,
+        invalidateOnRefresh: true,
       }
     });
 
@@ -514,14 +542,18 @@
         background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
         duration: 2
       }, 0)
+      // Silhouette cowers when kiss approaches
       .to(".silhouette", {
         duration: 0.1,
-        onStart: () => document.querySelector(".silhouette").classList.add("cowering")
+        onStart: () => silhouetteEl.classList.add("cowering"),
+        onReverseComplete: () => silhouetteEl.classList.remove("cowering")
       }, 1.5)
       .to(".stage-glow", { opacity: 1, scale: 1.5, duration: 2, ease: "power1.in" }, 2)
+      // Silhouette fades out
       .to(".silhouette", {
         opacity: 0, duration: 0.8,
-        onComplete: () => document.querySelector(".silhouette").classList.remove("cowering")
+        onComplete: () => silhouetteEl.classList.remove("cowering"),
+        onReverseComplete: () => silhouetteEl.classList.add("cowering")
       }, 2.5)
 
     // --- PART 2: Stage clears, kiss rolls away (3-8) ---
@@ -529,7 +561,7 @@
       .to(".stage-glow", { opacity: 0, scale: 3, duration: 2, ease: "power1.out" }, 4)
       .to(".stage-floor", { opacity: 0, duration: 1 }, 4)
       .to(".kiss-logo", {
-        x: window.innerWidth + 200,
+        x: () => window.innerWidth + 200,
         rotation: 360,
         duration: 5,
         ease: "none"
@@ -551,10 +583,11 @@
       // Runner appears and starts running
       .to(".runner", {
         opacity: 1, duration: 0.5,
-        onStart: () => document.querySelector(".runner").classList.add("running")
+        onStart: () => runnerEl.classList.add("running"),
+        onReverseComplete: () => runnerEl.classList.remove("running")
       }, 16)
       .to(".runner", {
-        x: window.innerWidth * 0.65,
+        x: () => window.innerWidth * 0.65,
         duration: 7,
         ease: "power1.inOut"
       }, 16);
@@ -567,7 +600,7 @@
       // Fade in as they enter
       tl.to(kiss, { opacity: 0.3 + Math.random() * 0.7, duration: 0.5 }, delay);
       tl.to(kiss, {
-        x: window.innerWidth + 500 + Math.random() * 400,
+        x: () => window.innerWidth + 500 + Math.random() * 400,
         rotation: Math.random() > 0.5 ? 360 : -180,
         duration: speed,
         ease: "power1.in"
@@ -578,7 +611,8 @@
     tl.to(".blackout-overlay", { opacity: 1, duration: 1.5 }, 23)
       .to(".runner", {
         opacity: 0, duration: 0.5,
-        onComplete: () => document.querySelector(".runner").classList.remove("running")
+        onComplete: () => runnerEl.classList.remove("running"),
+        onReverseComplete: () => runnerEl.classList.add("running")
       }, 23)
       .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 24)
       .to(".final-logo", {
