@@ -23,13 +23,13 @@
       overflow-x: hidden;
     }
 
-    /* ===== SCENE 1: Stage & Kiss Drop ===== */
-    #scene1 {
-      height: 400vh;
+    /* Single scene container — everything lives here */
+    #experience {
+      height: 2000vh;
       position: relative;
     }
 
-    #scene1-pin {
+    #pin-container {
       position: relative;
       width: 100%;
       height: 100vh;
@@ -68,7 +68,7 @@
       transform-origin: bottom center;
     }
 
-    /* Kiss logo — large, starts above viewport, lands at bottom */
+    /* Kiss logo — large, starts above viewport */
     .kiss-logo {
       position: absolute;
       left: 50%;
@@ -79,22 +79,21 @@
       height: auto;
     }
 
-    /* ===== SCENE 2: Product Reveal ===== */
-    #scene2 {
-      height: 500vh;
-      position: relative;
+    /* Stage glow */
+    .stage-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,30,58,0.15) 0%, rgba(232,67,147,0.08) 30%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
     }
 
-    #scene2-pin {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--besos-dark);
-    }
-
-
-
+    /* Products */
     .products-container {
       position: absolute;
       top: 0;
@@ -107,6 +106,7 @@
       gap: 40px;
       opacity: 0;
       padding: 60px;
+      z-index: 10;
     }
 
     .product-card {
@@ -162,30 +162,21 @@
       font-weight: 600;
     }
 
-    /* ===== SCENE 3: Chase & Blackout ===== */
-    #scene3 {
-      height: 500vh;
-      position: relative;
-    }
-
-    #scene3-pin {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--besos-dark);
-    }
-
+    /* Runner */
     .runner {
       position: absolute;
       bottom: 120px;
       left: -100px;
+      opacity: 0;
     }
 
+    /* Chase kisses */
     .chase-kiss {
       position: absolute;
+      opacity: 0;
     }
 
+    /* Blackout overlay */
     .blackout-overlay {
       position: absolute;
       top: 0;
@@ -216,21 +207,7 @@
       opacity: 0;
     }
 
-    /* Stage glow — separate from kiss, stays in place */
-    .stage-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,30,58,0.15) 0%, rgba(232,67,147,0.08) 30%, transparent 70%);
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    /* Ground line for scenes */
+    /* Ground line */
     .ground-line {
       position: absolute;
       bottom: 100px;
@@ -275,56 +252,40 @@
     <span class="arrow">↓</span>
   </div>
 
-  <!-- ===== SCENE 1: Dark Stage, Man, Kiss Falls ===== -->
-  <section id="scene1">
-    <div id="scene1-pin">
+  <!-- Single pinned experience — no scene breaks -->
+  <section id="experience">
+    <div id="pin-container">
       <div class="spotlight"></div>
       <div class="stage-floor"></div>
 
       <!-- Stick figure silhouette -->
       <svg class="silhouette" width="80" height="180" viewBox="0 0 80 180">
-        <!-- Head -->
         <circle cx="40" cy="20" r="14" fill="#111" stroke="#222" stroke-width="1"/>
-        <!-- Body -->
         <line x1="40" y1="34" x2="40" y2="100" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-        <!-- Arms (neutral) -->
         <line class="left-arm" x1="40" y1="55" x2="15" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
         <line class="right-arm" x1="40" y1="55" x2="65" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <!-- Legs -->
         <line x1="40" y1="100" x2="20" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
         <line x1="40" y1="100" x2="60" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <!-- Feet -->
         <line x1="20" y1="145" x2="10" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
         <line x1="60" y1="145" x2="70" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
       </svg>
 
-      <!-- Separate stage glow (stays in place, does NOT move with kiss) -->
+      <!-- Stage glow -->
       <div class="stage-glow"></div>
 
-      <!-- Falling Kiss Logo — real lips PNG, large from start -->
+      <!-- Falling Kiss Logo -->
       <img class="kiss-logo" src="besos-lips-logo.png" alt="">
-    </div>
-  </section>
-
-  <!-- ===== SCENE 2: Product Reveal ===== -->
-  <section id="scene2">
-    <div id="scene2-pin">
-      <div class="ground-line"></div>
 
       <!-- Products -->
       <div class="products-container">
         <!-- Product 1: Disposable -->
         <div class="product-card">
           <svg class="product-icon" viewBox="0 0 120 160">
-            <!-- Vape pen body -->
             <rect x="35" y="10" width="50" height="120" rx="25" fill="linear-gradient(#1a1a2e, #0a0a0a)"/>
             <rect x="35" y="10" width="50" height="120" rx="25" fill="none" stroke="var(--besos-red)" stroke-width="1.5" opacity="0.6"/>
             <rect x="45" y="20" width="30" height="60" rx="5" fill="rgba(196,30,58,0.15)"/>
-            <!-- Mouthpiece -->
             <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
-            <!-- Kiss mark on pen -->
             <image href="besos-lips-logo.png" x="38" y="85" width="44" height="40" opacity="0.8"/>
-            <!-- LED -->
             <circle cx="60" cy="125" r="3" fill="#c41e3a" opacity="0.8"/>
           </svg>
           <h3>Liquid Diamonds</h3>
@@ -339,7 +300,6 @@
             <rect x="35" y="10" width="50" height="120" rx="25" fill="none" stroke="#4ade80" stroke-width="1.5" opacity="0.6"/>
             <rect x="45" y="20" width="30" height="60" rx="5" fill="rgba(74,222,128,0.1)"/>
             <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
-            <!-- Watermelon accent -->
             <circle cx="60" cy="50" r="12" fill="rgba(74,222,128,0.2)" stroke="#4ade80" stroke-width="0.5"/>
             <circle cx="55" cy="48" r="1.5" fill="#333"/>
             <circle cx="62" cy="45" r="1.5" fill="#333"/>
@@ -364,7 +324,6 @@
             <rect x="35" y="10" width="50" height="120" rx="25" fill="none" stroke="#818cf8" stroke-width="1.5" opacity="0.6"/>
             <rect x="45" y="20" width="30" height="60" rx="5" fill="rgba(129,140,248,0.1)"/>
             <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
-            <!-- Blueberry accent -->
             <circle cx="55" cy="45" r="7" fill="rgba(129,140,248,0.3)" stroke="#818cf8" stroke-width="0.5"/>
             <circle cx="65" cy="50" r="6" fill="rgba(129,140,248,0.25)" stroke="#818cf8" stroke-width="0.5"/>
             <circle cx="58" cy="55" r="5" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="0.5"/>
@@ -385,20 +344,15 @@
         <!-- Product 4: Coffin Kisses Pre-Roll -->
         <div class="product-card">
           <svg class="product-icon" viewBox="0 0 120 160">
-            <!-- Pre-roll joint shape -->
             <g transform="rotate(-15, 60, 80)">
               <polygon points="50,15 70,15 75,130 45,130" fill="none" stroke="var(--besos-gold)" stroke-width="1.5" opacity="0.6"/>
-              <!-- Paper texture lines -->
               <line x1="52" y1="40" x2="68" y2="40" stroke="rgba(212,168,67,0.2)" stroke-width="0.5"/>
               <line x1="51" y1="60" x2="69" y2="60" stroke="rgba(212,168,67,0.2)" stroke-width="0.5"/>
               <line x1="50" y1="80" x2="70" y2="80" stroke="rgba(212,168,67,0.2)" stroke-width="0.5"/>
-              <!-- Tip glow -->
               <polygon points="50,12 70,12 68,5 52,5" fill="rgba(255,100,0,0.3)"/>
               <polygon points="52,5 68,5 65,0 55,0" fill="rgba(255,60,0,0.2)"/>
-              <!-- Kiss mark -->
               <image href="besos-lips-logo.png" x="38" y="88" width="40" height="36" opacity="0.8"/>
             </g>
-            <!-- Coffin shape accent -->
             <path d="M30,140 L40,135 L80,135 L90,140 L85,155 L35,155 Z" fill="none" stroke="var(--besos-gold)" stroke-width="0.8" opacity="0.3"/>
           </svg>
           <h3>Coffin Kisses</h3>
@@ -407,21 +361,11 @@
           <div class="thc">Premium Infused</div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== SCENE 3: Chase, Blackout, Finale ===== -->
-  <section id="scene3">
-    <div id="scene3-pin">
-      <div class="ground-line"></div>
 
       <!-- Running stick figure with jointed legs -->
       <svg class="runner" width="80" height="140" viewBox="0 0 80 140">
-        <!-- Head -->
         <circle cx="40" cy="15" r="12" fill="#ddd"/>
-        <!-- Body (leaning forward) -->
         <line x1="40" y1="27" x2="38" y2="72" stroke="#ddd" stroke-width="3" stroke-linecap="round"/>
-        <!-- Arms -->
         <g class="run-arm-l" transform-origin="40 45">
           <line x1="40" y1="45" x2="22" y2="38" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
           <line x1="22" y1="38" x2="18" y2="52" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
@@ -430,17 +374,15 @@
           <line x1="40" y1="45" x2="58" y2="56" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
           <line x1="58" y1="56" x2="62" y2="42" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
         </g>
-        <!-- Left leg: thigh + shin -->
         <g class="run-leg-l" transform-origin="38 72">
-          <line class="thigh-l" x1="38" y1="72" x2="25" y2="95" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
-          <line class="shin-l" x1="25" y1="95" x2="18" y2="120" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
-          <line class="foot-l" x1="18" y1="120" x2="10" y2="120" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="38" y1="72" x2="25" y2="95" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="25" y1="95" x2="18" y2="120" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="18" y1="120" x2="10" y2="120" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
         </g>
-        <!-- Right leg: thigh + shin -->
         <g class="run-leg-r" transform-origin="38 72">
-          <line class="thigh-r" x1="38" y1="72" x2="55" y2="92" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
-          <line class="shin-r" x1="55" y1="92" x2="60" y2="118" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
-          <line class="foot-r" x1="60" y1="118" x2="68" y2="120" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="38" y1="72" x2="55" y2="92" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="55" y1="92" x2="60" y2="118" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="60" y1="118" x2="68" y2="120" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
         </g>
       </svg>
 
@@ -450,7 +392,7 @@
       <!-- Blackout overlay -->
       <div class="blackout-overlay"></div>
 
-      <!-- Final Besos Logo — actual brand image -->
+      <!-- Final Besos Logo -->
       <div class="final-logo">
         <img src="besos-logo-white-rt.png" alt="Be$os" style="max-width:600px; width:80vw; height:auto;">
         <div class="tagline">Dame Un Beso · Para La Cultura</div>
@@ -465,196 +407,117 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // ===========================
-    // SCENE 1: Stage, Kiss Falls
-    // ===========================
-    const scene1Tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#scene1",
-        pin: "#scene1-pin",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1,
-      }
-    });
-
-    // Large kiss falls from above, lands at bottom where "scroll to begin" is
-    const kissImg = document.querySelector(".kiss-logo");
-    // Calculate how far kiss needs to travel: from top:-60vw to bottom:30px
-    const kissLandY = window.innerHeight + kissImg.offsetHeight * 0.5;
-
-    scene1Tl
-      // Kiss drops from above viewport to the bottom of the screen
-      .fromTo(".kiss-logo",
-        { y: 0 },
-        { y: kissLandY, duration: 3, ease: "power2.in" }
-      )
-      // Hide scroll hint as kiss starts falling
-      .to(".scroll-hint", { opacity: 0, duration: 0.5 }, 0)
-      // Spotlight intensifies as kiss falls
-      .to(".spotlight", {
-        background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
-        duration: 2
-      }, 0)
-      // Silhouette looks up, then cowers as kiss approaches
-      .to(".silhouette", {
-        x: -30,
-        rotation: -15,
-        duration: 1.5
-      }, 1.5)
-      .to(".silhouette .left-arm", {
-        attr: { x2: 5, y2: 40 },
-        duration: 1
-      }, 1.8)
-      .to(".silhouette .right-arm", {
-        attr: { x2: 70, y2: 40 },
-        duration: 1
-      }, 1.8)
-      // Stage glow appears as kiss lands
-      .to(".stage-glow", {
-        opacity: 1,
-        scale: 1.5,
-        duration: 2,
-        ease: "power1.in"
-      }, 2)
-      // Silhouette disappears behind the kiss as it covers him
-      .to(".silhouette", { opacity: 0, duration: 0.8 }, 2.5)
-      // Spotlight fades
-      .to(".spotlight", { opacity: 0, duration: 1.5 }, 4)
-      // Glow fades
-      .to(".stage-glow", {
-        opacity: 0,
-        scale: 3,
-        duration: 2,
-        ease: "power1.out"
-      }, 4.5)
-      // Kiss rolls away slowly to the right — same size, same frame
-      .to(".kiss-logo", {
-        x: window.innerWidth + 200,
-        rotation: 360,
-        duration: 5,
-        ease: "none"
-      }, 5.5);
-
-
-    // ===========================
-    // SCENE 2: Roll Away & Products
-    // ===========================
-    const scene2Tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#scene2",
-        pin: "#scene2-pin",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1,
-      }
-    });
-
-    // Products container fades in
-    scene2Tl
-      .to(".products-container", { opacity: 1, duration: 0.5 }, 0)
-      // Each product card pops in with stagger
-      .to(".product-card", {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1.5,
-        stagger: 0.4,
-        ease: "back.out(1.7)"
-      }, 2)
-      // Hold products visible
-      .to({}, { duration: 2 })
-      // Fade products out for next scene
-      .to(".products-container", { opacity: 0, y: -40, duration: 1.5 }, ">");
-
-
-    // ===========================
-    // SCENE 3: Chase & Blackout
-    // ===========================
-
     // Generate chase kisses — flood the entire screen
     const chaseContainer = document.getElementById("chase-kisses");
     const numKisses = 80;
     for (let i = 0; i < numKisses; i++) {
       const kiss = document.createElement("div");
       kiss.className = "chase-kiss";
-      // Spread across full viewport height, not just the bottom
       const bottomPos = 20 + Math.random() * (window.innerHeight - 100);
       const size = 40 + Math.random() * 80;
       kiss.style.cssText = `
         position: absolute;
         bottom: ${bottomPos}px;
         left: ${-200 - (i * 80) - Math.random() * 150}px;
-        opacity: ${0.3 + Math.random() * 0.7};
       `;
       kiss.innerHTML = `<img src="besos-lips-logo.png" alt="" width="${size}" height="${size * 0.9}" style="filter: hue-rotate(${Math.random() * 10 - 5}deg);">`;
       chaseContainer.appendChild(kiss);
     }
 
-    const scene3Tl = gsap.timeline({
+    // ===========================
+    // ONE CONTINUOUS TIMELINE
+    // ===========================
+    const kissImg = document.querySelector(".kiss-logo");
+    const kissLandY = window.innerHeight + kissImg.offsetHeight * 0.5;
+
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: "#scene3",
-        pin: "#scene3-pin",
+        trigger: "#experience",
+        pin: "#pin-container",
         start: "top top",
         end: "bottom bottom",
         scrub: 1,
       }
     });
 
-    // Runner moves across the screen
-    scene3Tl
+    // --- PART 1: Kiss falls (0-3) ---
+    tl.fromTo(".kiss-logo",
+        { y: 0 },
+        { y: kissLandY, duration: 3, ease: "power2.in" }
+      )
+      .to(".scroll-hint", { opacity: 0, duration: 0.5 }, 0)
+      .to(".spotlight", {
+        background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
+        duration: 2
+      }, 0)
+      .to(".silhouette", { x: -30, rotation: -15, duration: 1.5 }, 1.5)
+      .to(".silhouette .left-arm", { attr: { x2: 5, y2: 40 }, duration: 1 }, 1.8)
+      .to(".silhouette .right-arm", { attr: { x2: 70, y2: 40 }, duration: 1 }, 1.8)
+      .to(".stage-glow", { opacity: 1, scale: 1.5, duration: 2, ease: "power1.in" }, 2)
+      .to(".silhouette", { opacity: 0, duration: 0.8 }, 2.5)
+
+    // --- PART 2: Stage clears, kiss rolls away (3-8) ---
+      .to(".spotlight", { opacity: 0, duration: 1.5 }, 3.5)
+      .to(".stage-glow", { opacity: 0, scale: 3, duration: 2, ease: "power1.out" }, 4)
+      .to(".stage-floor", { opacity: 0, duration: 1 }, 4)
+      .to(".kiss-logo", {
+        x: window.innerWidth + 200,
+        rotation: 360,
+        duration: 5,
+        ease: "none"
+      }, 5)
+
+    // --- PART 3: Products reveal (10-18) ---
+      .to(".products-container", { opacity: 1, duration: 1 }, 10)
+      .to(".product-card", {
+        opacity: 1, y: 0, scale: 1,
+        duration: 1.5, stagger: 0.4,
+        ease: "back.out(1.7)"
+      }, 11)
+      // Hold products visible
+      .to({}, { duration: 3 }, 14)
+      // Fade products out
+      .to(".products-container", { opacity: 0, y: -40, duration: 1.5 }, 17)
+
+    // --- PART 4: Runner & chase (19-28) ---
+      // Runner appears
+      .to(".runner", { opacity: 1, duration: 0.5 }, 19)
       .to(".runner", {
         x: window.innerWidth * 0.65,
-        duration: 5,
+        duration: 7,
         ease: "power1.inOut"
-      })
-      // Left leg swings forward then back (full stride cycle)
+      }, 19)
+      // Leg cycling
       .to(".run-leg-l", {
-        rotation: 30,
-        duration: 0.3,
-        yoyo: true,
-        repeat: 15,
-        ease: "sine.inOut"
-      }, 0)
-      // Right leg opposite phase
+        rotation: 30, duration: 0.35,
+        yoyo: true, repeat: 19, ease: "sine.inOut"
+      }, 19)
       .to(".run-leg-r", {
-        rotation: -30,
-        duration: 0.3,
-        yoyo: true,
-        repeat: 15,
-        ease: "sine.inOut"
-      }, 0.15)
-      // Arms pump opposite to legs
+        rotation: -30, duration: 0.35,
+        yoyo: true, repeat: 19, ease: "sine.inOut"
+      }, 19.175)
       .to(".run-arm-l", {
-        rotation: -25,
-        duration: 0.3,
-        yoyo: true,
-        repeat: 15,
-        ease: "sine.inOut"
-      }, 0.15)
+        rotation: -25, duration: 0.35,
+        yoyo: true, repeat: 19, ease: "sine.inOut"
+      }, 19.175)
       .to(".run-arm-r", {
-        rotation: 25,
-        duration: 0.3,
-        yoyo: true,
-        repeat: 15,
-        ease: "sine.inOut"
-      }, 0)
-      // Slight body bob
+        rotation: 25, duration: 0.35,
+        yoyo: true, repeat: 19, ease: "sine.inOut"
+      }, 19)
+      // Body bob
       .to(".runner", {
-        y: -3,
-        duration: 0.15,
-        yoyo: true,
-        repeat: 30,
-        ease: "sine.inOut"
-      }, 0);
+        y: -3, duration: 0.175,
+        yoyo: true, repeat: 38, ease: "sine.inOut"
+      }, 19);
 
-    // Chase kisses swarm in — flooding the screen from left to right
+    // Chase kisses swarm in — flooding the screen
     const chaseKisses = document.querySelectorAll(".chase-kiss");
     chaseKisses.forEach((kiss, i) => {
-      const delay = Math.random() * 2;
-      const speed = 3 + Math.random() * 3;
-      // Some kisses also rotate as they fly across
-      scene3Tl.to(kiss, {
+      const delay = 19.5 + Math.random() * 3;
+      const speed = 4 + Math.random() * 4;
+      // Fade in as they enter
+      tl.to(kiss, { opacity: 0.3 + Math.random() * 0.7, duration: 0.5 }, delay);
+      tl.to(kiss, {
         x: window.innerWidth + 500 + Math.random() * 400,
         rotation: Math.random() > 0.5 ? 360 : -180,
         duration: speed,
@@ -662,40 +525,17 @@
       }, delay);
     });
 
-    // Blackout as kisses overwhelm
-    scene3Tl
-      .to(".blackout-overlay", {
-        opacity: 1,
-        duration: 1.5
-      }, 4)
-      // Runner disappears
-      .to(".runner", { opacity: 0, duration: 0.5 }, 4)
-      // Kiss logos fade behind blackout
-      .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 5)
-      // Final full brand logo pops in
+    // --- PART 5: Blackout & finale (26-32) ---
+    tl.to(".blackout-overlay", { opacity: 1, duration: 1.5 }, 26)
+      .to(".runner", { opacity: 0, duration: 0.5 }, 26)
+      .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 27)
       .to(".final-logo", {
-        scale: 1,
-        duration: 1.5,
+        scale: 1, duration: 1.5,
         ease: "elastic.out(1, 0.5)"
-      }, 5.5)
-      // Tagline fades in
-      .to(".final-logo .tagline", {
-        opacity: 1,
-        duration: 1
-      }, 7)
+      }, 28)
+      .to(".final-logo .tagline", { opacity: 1, duration: 1 }, 30)
       // Hold finale
-      .to({}, { duration: 1 });
-
-    // Hide scroll hint after user starts scrolling
-    ScrollTrigger.create({
-      trigger: "#scene1",
-      start: "top top",
-      onUpdate: (self) => {
-        if (self.progress > 0.02) {
-          gsap.to(".scroll-hint", { opacity: 0, duration: 0.5 });
-        }
-      }
-    });
+      .to({}, { duration: 2 });
   </script>
 </body>
 </html>
