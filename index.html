@@ -59,13 +59,26 @@
       background: linear-gradient(to top, #1a1a1a 0%, transparent 100%);
     }
 
-    /* Stick figure silhouette */
+    /* Sprite-based silhouette (idle pose) */
     .silhouette {
       position: absolute;
       bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
       transform-origin: bottom center;
+      width: 192px;
+      height: 341px;
+      background: url('sprite-sheet-final.png') 0 -341px;
+      background-size: 1536px 1024px;
+      transform: translateX(-50%) scale(0.5);
+    }
+    .silhouette.cowering {
+      background-position-y: 0;
+      animation: cowerCycle 0.8s steps(7) infinite;
+    }
+    @keyframes cowerCycle {
+      from { background-position-x: 0; }
+      to { background-position-x: -1344px; }
     }
 
     /* Kiss logo — large, starts above viewport */
@@ -162,25 +175,25 @@
       font-weight: 600;
     }
 
-    /* Runner - sprite sheet */
+    /* Runner - sprite sheet (row 3 = run) */
     .runner {
       position: absolute;
       bottom: 80px;
       left: -200px;
       opacity: 0;
       width: 192px;
-      height: 341px;
+      height: 342px;
       background: url('sprite-sheet-final.png') 0 -682px;
       background-size: 1536px 1024px;
-      transform: scale(0.5);
+      transform: scale(0.6);
       transform-origin: bottom center;
     }
     .runner.running {
-      animation: runCycle 0.6s steps(7) infinite;
+      animation: runCycle 0.6s steps(8) infinite;
     }
     @keyframes runCycle {
       from { background-position-x: 0; }
-      to { background-position-x: -1344px; }
+      to { background-position-x: -1536px; }
     }
 
     /* Chase kisses */
@@ -271,17 +284,8 @@
       <div class="spotlight"></div>
       <div class="stage-floor"></div>
 
-      <!-- Stick figure silhouette -->
-      <svg class="silhouette" width="80" height="180" viewBox="0 0 80 180">
-        <circle cx="40" cy="20" r="14" fill="#111" stroke="#222" stroke-width="1"/>
-        <line x1="40" y1="34" x2="40" y2="100" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-        <line class="left-arm" x1="40" y1="55" x2="15" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <line class="right-arm" x1="40" y1="55" x2="65" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <line x1="40" y1="100" x2="20" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <line x1="40" y1="100" x2="60" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <line x1="20" y1="145" x2="10" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        <line x1="60" y1="145" x2="70" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-      </svg>
+      <!-- Sprite-based silhouette (idle → cower) -->
+      <div class="silhouette"></div>
 
       <!-- Stage glow -->
       <div class="stage-glow"></div>
@@ -442,11 +446,15 @@
         background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
         duration: 2
       }, 0)
-      .to(".silhouette", { x: -30, rotation: -15, duration: 1.5 }, 1.5)
-      .to(".silhouette .left-arm", { attr: { x2: 5, y2: 40 }, duration: 1 }, 1.8)
-      .to(".silhouette .right-arm", { attr: { x2: 70, y2: 40 }, duration: 1 }, 1.8)
+      .to(".silhouette", {
+        duration: 0.1,
+        onStart: () => document.querySelector(".silhouette").classList.add("cowering")
+      }, 1.5)
       .to(".stage-glow", { opacity: 1, scale: 1.5, duration: 2, ease: "power1.in" }, 2)
-      .to(".silhouette", { opacity: 0, duration: 0.8 }, 2.5)
+      .to(".silhouette", {
+        opacity: 0, duration: 0.8,
+        onComplete: () => document.querySelector(".silhouette").classList.remove("cowering")
+      }, 2.5)
 
     // --- PART 2: Stage clears, kiss rolls away (3-8) ---
       .to(".spotlight", { opacity: 0, duration: 1.5 }, 3.5)
