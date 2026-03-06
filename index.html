@@ -38,6 +38,7 @@
       width: 100%;
       height: 100vh;
       overflow: hidden;
+      touch-action: pan-y;
       background: radial-gradient(ellipse 40% 60% at 50% 80%, #1a1a2e 0%, #0a0a0a 70%);
     }
 
@@ -465,7 +466,7 @@
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
-    ScrollTrigger.normalizeScroll(true);
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     // Generate chase kisses — flood the entire screen
     const chaseContainer = document.getElementById("chase-kisses");
