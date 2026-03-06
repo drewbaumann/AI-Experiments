@@ -16,6 +16,10 @@
       --besos-gold: #d4a843;
     }
 
+    html, body {
+      overscroll-behavior: none;
+    }
+
     body {
       background: var(--besos-dark);
       color: #fff;
@@ -461,6 +465,7 @@
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.normalizeScroll(true);
 
     // Generate chase kisses — flood the entire screen
     const chaseContainer = document.getElementById("chase-kisses");
@@ -489,6 +494,7 @@
       scrollTrigger: {
         trigger: "#experience",
         pin: "#pin-container",
+        pinType: "transform",
         start: "top top",
         end: "bottom bottom",
         scrub: 1,
