@@ -210,29 +210,13 @@
       text-align: center;
     }
 
-    .final-logo .besos-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 8rem;
-      letter-spacing: 12px;
-      color: var(--besos-red);
-      text-shadow: 0 0 60px rgba(196,30,58,0.5), 0 0 120px rgba(196,30,58,0.2);
-    }
-
     .final-logo .tagline {
       font-size: 1.2rem;
       letter-spacing: 8px;
       text-transform: uppercase;
       color: var(--besos-gold);
-      margin-top: 10px;
+      margin-top: 20px;
       opacity: 0;
-    }
-
-    .final-kiss-logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -70%) scale(0);
-      z-index: 61;
     }
 
     /* Stage glow — separate from kiss, stays in place */
@@ -506,29 +490,66 @@
       <!-- Blackout overlay -->
       <div class="blackout-overlay"></div>
 
-      <!-- Final Besos Logo -->
-      <svg class="final-kiss-logo" width="160" height="140" viewBox="0 0 220 200">
-        <defs>
-          <filter id="finalGlow">
-            <feGaussianBlur stdDeviation="6" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <g filter="url(#finalGlow)" transform="rotate(-12, 110, 100)">
-          <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233"/>
-          <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233"/>
-          <path d="M60,55 C62,62 60,75 58,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
-          <path d="M90,46 C91,54 90,68 92,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
-          <path d="M130,46 C129,54 130,68 128,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
-          <path d="M160,55 C158,62 160,75 162,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
-          <path d="M65,100 C63,112 60,130 65,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
-          <path d="M110,98 C110,115 110,140 110,168" stroke="#a01a28" stroke-width="1.3" fill="none" opacity="0.3" stroke-linecap="round"/>
-          <path d="M155,100 C157,112 160,130 155,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
-        </g>
-      </svg>
-
+      <!-- Final Besos Logo — full brand logo recreation -->
       <div class="final-logo">
-        <div class="besos-text">BE$OS</div>
+        <svg width="520" height="260" viewBox="0 0 520 260">
+          <defs>
+            <filter id="finalGlow">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <!-- Rounded bubbly font style via thick stroke -->
+            <filter id="textOutline">
+              <feMorphology in="SourceAlpha" result="dilated" operator="dilate" radius="6"/>
+              <feFlood flood-color="#111" result="dark"/>
+              <feComposite in="dark" in2="dilated" operator="in" result="outline"/>
+              <feMerge>
+                <feMergeNode in="outline"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Kiss mark — positioned top right, tilted -->
+          <g transform="translate(340, -10) scale(0.55)" filter="url(#finalGlow)">
+            <g transform="rotate(-15, 110, 100)">
+              <path d="M45,88 C42,72 55,48 75,42 C85,39 95,45 100,52 C103,48 108,42 110,40 C112,42 117,48 120,52 C125,45 135,39 145,42 C165,48 178,72 175,88 C160,85 140,82 120,86 C110,88 100,88 100,86 C80,82 60,85 45,88 Z" fill="#cc2233"/>
+              <path d="M50,98 C48,100 42,120 52,142 C62,158 85,168 110,170 C135,168 158,158 168,142 C178,120 172,100 170,98 C155,102 135,96 120,98 C110,100 100,100 100,98 C85,96 65,102 50,98 Z" fill="#cc2233"/>
+              <path d="M60,55 C62,62 60,75 58,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <path d="M90,46 C91,54 90,68 92,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+              <path d="M130,46 C129,54 130,68 128,85" stroke="#a01a28" stroke-width="1" fill="none" opacity="0.45" stroke-linecap="round"/>
+              <path d="M160,55 C158,62 160,75 162,85" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <path d="M65,100 C63,112 60,130 65,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+              <path d="M110,98 C110,115 110,140 110,168" stroke="#a01a28" stroke-width="1.3" fill="none" opacity="0.3" stroke-linecap="round"/>
+              <path d="M155,100 C157,112 160,130 155,148" stroke="#a01a28" stroke-width="1.5" fill="none" opacity="0.45" stroke-linecap="round"/>
+            </g>
+          </g>
+
+          <!-- "Be$os" text — white bubbly letters with dark outline -->
+          <!-- B -->
+          <g filter="url(#textOutline)">
+            <path d="M30,100 L30,220 C30,225 35,230 40,230 L80,230 C105,230 120,218 120,200 C120,188 112,178 100,174 C110,170 115,160 115,150 C115,132 100,120 80,120 L40,120 C35,120 30,125 30,130 Z M65,148 L80,148 C88,148 93,153 93,160 C93,167 88,172 80,172 L65,172 Z M65,192 L82,192 C92,192 98,198 98,206 C98,214 92,220 82,220 L65,220 Z" fill="white"/>
+          </g>
+          <!-- e -->
+          <g filter="url(#textOutline)">
+            <path d="M138,158 C138,132 158,115 183,115 C208,115 225,132 225,155 C225,160 222,163 217,163 L168,163 C170,178 180,188 195,188 C205,188 212,183 217,175 C220,172 224,171 227,174 C230,177 230,182 227,186 C219,198 207,205 192,205 C162,205 138,185 138,158 Z M170,148 L200,148 C198,138 192,132 183,132 C174,132 168,138 170,148 Z" fill="white"/>
+          </g>
+          <!-- $ -->
+          <g filter="url(#textOutline)">
+            <path d="M258,108 C258,103 262,99 267,99 C272,99 276,103 276,108 L276,118 C295,122 308,135 308,152 C308,158 304,162 299,162 C294,162 290,158 290,152 C290,143 282,136 270,134 L270,168 C292,174 310,185 310,204 C310,222 295,235 276,238 L276,248 C276,253 272,257 267,257 C262,257 258,253 258,248 L258,238 C238,234 225,220 225,204 C225,198 229,194 234,194 C239,194 243,198 243,204 C243,214 252,222 264,224 L264,188 C242,182 225,172 225,152 C225,136 240,122 258,118 Z M264,134 C256,136 248,142 248,152 C248,161 254,167 264,170 Z M270,224 C280,222 288,215 288,204 C288,195 282,189 270,186 Z" fill="white"/>
+          </g>
+          <!-- o -->
+          <g filter="url(#textOutline)">
+            <path d="M325,160 C325,132 348,115 373,115 C398,115 420,132 420,160 C420,188 398,205 373,205 C348,205 325,188 325,160 Z M355,160 C355,178 362,190 373,190 C384,190 391,178 391,160 C391,142 384,130 373,130 C362,130 355,142 355,160 Z" fill="white"/>
+          </g>
+          <!-- s -->
+          <g filter="url(#textOutline)">
+            <path d="M430,180 C430,174 434,170 439,170 C444,170 448,174 448,180 C448,188 455,194 468,194 C479,194 486,189 486,182 C486,175 480,171 466,167 L456,164 C438,159 428,148 428,135 C428,118 444,108 463,108 C482,108 498,118 498,135 C498,141 494,145 489,145 C484,145 480,141 480,135 C480,128 474,123 463,123 C453,123 447,128 447,134 C447,141 453,145 466,149 L476,152 C494,157 504,168 504,182 C504,200 487,210 468,210 C448,210 430,198 430,180 Z" fill="white"/>
+          </g>
+
+          <!-- ® symbol -->
+          <text x="508" y="230" font-family="Inter, sans-serif" font-size="14" fill="white" opacity="0.6">®</text>
+        </svg>
         <div class="tagline">Dame Un Beso · Para La Cultura</div>
       </div>
     </div>
@@ -727,18 +748,12 @@
       .to(".runner", { opacity: 0, duration: 0.5 }, 4)
       // Kiss logos fade behind blackout
       .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 5)
-      // Final kiss logo pops in
-      .to(".final-kiss-logo", {
-        scale: 1,
-        duration: 1,
-        ease: "back.out(2)"
-      }, 5.5)
-      // Final BE$OS text pops in
+      // Final full brand logo pops in
       .to(".final-logo", {
         scale: 1,
-        duration: 1.2,
+        duration: 1.5,
         ease: "elastic.out(1, 0.5)"
-      }, 6)
+      }, 5.5)
       // Tagline fades in
       .to(".final-logo .tagline", {
         opacity: 1,
