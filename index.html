@@ -52,6 +52,19 @@
       height: 100vh;
       background: radial-gradient(ellipse 50% 70% at 50% 100%, rgba(255,255,220,0.08) 0%, transparent 70%);
       pointer-events: none;
+      will-change: opacity;
+    }
+    .spotlight-red {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 100vh;
+      background: radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      will-change: opacity;
     }
 
     /* Stage floor */
@@ -77,7 +90,7 @@
       background-size: 1536px 1024px;
       transform: translateX(-50%) scale(0.5);
       transform-origin: bottom center;
-      mix-blend-mode: lighten;
+      will-change: transform, opacity;
     }
     .silhouette.cowering {
       background-position-y: 0;
@@ -97,6 +110,7 @@
       width: 80vw;
       max-width: 700px;
       height: auto;
+      will-change: transform;
     }
 
     /* Stage glow */
@@ -195,7 +209,7 @@
       background-size: 1536px 1024px;
       transform: scale(0.6);
       transform-origin: bottom center;
-      mix-blend-mode: lighten;
+      will-change: transform, opacity;
     }
     .runner.running {
       visibility: visible;
@@ -207,9 +221,13 @@
     }
 
     /* Chase kisses */
+    #chase-kisses {
+      will-change: opacity;
+    }
     .chase-kiss {
       position: absolute;
       opacity: 0;
+      will-change: transform, opacity;
     }
 
     /* Blackout overlay */
@@ -371,6 +389,7 @@
   <section id="experience">
     <div id="pin-container">
       <div class="spotlight"></div>
+      <div class="spotlight-red"></div>
       <div class="stage-floor"></div>
 
       <!-- Sprite-based silhouette (idle → cower) -->
@@ -510,7 +529,7 @@
         bottom: ${bottomPos}px;
         left: ${-200 - (i * 80) - Math.random() * 150}px;
       `;
-      kiss.innerHTML = `<img src="besos-lips-logo.png" alt="" width="${size}" height="${size * 0.9}" style="filter: hue-rotate(${Math.random() * 10 - 5}deg);">`;
+      kiss.innerHTML = `<img src="besos-lips-logo.png" alt="" width="${size}" height="${size * 0.9}">`;
       chaseContainer.appendChild(kiss);
     }
 
@@ -524,10 +543,9 @@
       scrollTrigger: {
         trigger: "#experience",
         pin: "#pin-container",
-        pinType: "transform",
         start: "top top",
         end: "bottom bottom",
-        scrub: 1,
+        scrub: isMobile ? 2 : 1,
         invalidateOnRefresh: true,
       }
     });
@@ -538,10 +556,9 @@
         { y: kissLandY, duration: 3, ease: "power2.in" }
       )
       .to(".scroll-hint", { opacity: 0, duration: 0.5 }, 0)
-      .to(".spotlight", {
-        background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
-        duration: 2
-      }, 0)
+      // Crossfade spotlights (opacity only — no gradient repaints)
+      .to(".spotlight", { opacity: 0, duration: 2 }, 0)
+      .to(".spotlight-red", { opacity: 1, duration: 2 }, 0)
       // Silhouette cowers when kiss approaches
       .to(".silhouette", {
         duration: 0.1,
@@ -557,7 +574,7 @@
       }, 2.5)
 
     // --- PART 2: Stage clears, kiss rolls away (3-8) ---
-      .to(".spotlight", { opacity: 0, duration: 1.5 }, 3.5)
+      .to(".spotlight-red", { opacity: 0, duration: 1.5 }, 3.5)
       .to(".stage-glow", { opacity: 0, scale: 3, duration: 2, ease: "power1.out" }, 4)
       .to(".stage-floor", { opacity: 0, duration: 1 }, 4)
       .to(".kiss-logo", {
