@@ -467,53 +467,53 @@
         ease: "none"
       }, 5)
 
-    // --- PART 3: Products reveal (10-18) ---
-      .to(".products-container", { opacity: 1, duration: 1 }, 10)
+    // --- PART 3: Products reveal (overlaps with kiss rolling away) ---
+      .to(".products-container", { opacity: 1, duration: 1 }, 7.5)
       .to(".product-card", {
         opacity: 1, y: 0, scale: 1,
         duration: 1.5, stagger: 0.4,
         ease: "back.out(1.7)"
-      }, 11)
+      }, 8)
       // Hold products visible
-      .to({}, { duration: 3 }, 14)
+      .to({}, { duration: 3 }, 11)
       // Fade products out
-      .to(".products-container", { opacity: 0, y: -40, duration: 1.5 }, 17)
+      .to(".products-container", { opacity: 0, y: -40, duration: 1.5 }, 14)
 
-    // --- PART 4: Runner & chase (19-28) ---
+    // --- PART 4: Runner & chase (16-25) ---
       // Runner appears
-      .to(".runner", { opacity: 1, duration: 0.5 }, 19)
+      .to(".runner", { opacity: 1, duration: 0.5 }, 16)
       .to(".runner", {
         x: window.innerWidth * 0.65,
         duration: 7,
         ease: "power1.inOut"
-      }, 19)
+      }, 16)
       // Leg cycling
       .to(".run-leg-l", {
         rotation: 30, duration: 0.35,
         yoyo: true, repeat: 19, ease: "sine.inOut"
-      }, 19)
+      }, 16)
       .to(".run-leg-r", {
         rotation: -30, duration: 0.35,
         yoyo: true, repeat: 19, ease: "sine.inOut"
-      }, 19.175)
+      }, 16.175)
       .to(".run-arm-l", {
         rotation: -25, duration: 0.35,
         yoyo: true, repeat: 19, ease: "sine.inOut"
-      }, 19.175)
+      }, 16.175)
       .to(".run-arm-r", {
         rotation: 25, duration: 0.35,
         yoyo: true, repeat: 19, ease: "sine.inOut"
-      }, 19)
+      }, 16)
       // Body bob
       .to(".runner", {
         y: -3, duration: 0.175,
         yoyo: true, repeat: 38, ease: "sine.inOut"
-      }, 19);
+      }, 16);
 
     // Chase kisses swarm in — flooding the screen
     const chaseKisses = document.querySelectorAll(".chase-kiss");
     chaseKisses.forEach((kiss, i) => {
-      const delay = 19.5 + Math.random() * 3;
+      const delay = 16.5 + Math.random() * 3;
       const speed = 4 + Math.random() * 4;
       // Fade in as they enter
       tl.to(kiss, { opacity: 0.3 + Math.random() * 0.7, duration: 0.5 }, delay);
@@ -525,15 +525,15 @@
       }, delay);
     });
 
-    // --- PART 5: Blackout & finale (26-32) ---
-    tl.to(".blackout-overlay", { opacity: 1, duration: 1.5 }, 26)
-      .to(".runner", { opacity: 0, duration: 0.5 }, 26)
-      .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 27)
+    // --- PART 5: Blackout & finale (23-30) ---
+    tl.to(".blackout-overlay", { opacity: 1, duration: 1.5 }, 23)
+      .to(".runner", { opacity: 0, duration: 0.5 }, 23)
+      .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 24)
       .to(".final-logo", {
         scale: 1, duration: 1.5,
         ease: "elastic.out(1, 0.5)"
-      }, 28)
-      .to(".final-logo .tagline", { opacity: 1, duration: 1 }, 30)
+      }, 25)
+      .to(".final-logo .tagline", { opacity: 1, duration: 1 }, 27)
       // Hold finale
       .to({}, { duration: 2 });
   </script>
