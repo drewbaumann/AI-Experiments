@@ -59,21 +59,20 @@
       background: linear-gradient(to top, #1a1a1a 0%, transparent 100%);
     }
 
-    /* Sprite-based silhouette (idle pose) */
+    /* Sprite-based silhouette (idle pose = row 1) */
     .silhouette {
       position: absolute;
       bottom: 80px;
       left: 50%;
-      transform: translateX(-50%);
-      transform-origin: bottom center;
       width: 192px;
       height: 341px;
-      background: url('sprite-sheet-final.png') 0 -341px;
+      background: url('sprite-sheet-final.png') 0 0;
       background-size: 1536px 1024px;
       transform: translateX(-50%) scale(0.5);
+      transform-origin: bottom center;
     }
     .silhouette.cowering {
-      background-position-y: 0;
+      background-position-y: -341px;
       animation: cowerCycle 0.8s steps(7) infinite;
     }
     @keyframes cowerCycle {
@@ -244,6 +243,66 @@
     }
 
     /* Scroll hint */
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .products-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .product-card {
+        width: 85vw;
+        max-width: 300px;
+        padding: 20px;
+      }
+      .product-card .product-icon {
+        width: 80px;
+        height: 110px;
+      }
+      .stage-glow {
+        width: 300px;
+        height: 300px;
+      }
+      .silhouette {
+        transform: translateX(-50%) scale(0.4);
+      }
+      .runner {
+        transform: scale(0.45);
+      }
+      .final-logo .tagline {
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-container {
+        gap: 15px;
+        padding: 15px;
+      }
+      .product-card {
+        width: 90vw;
+        padding: 16px;
+      }
+      .product-card h3 {
+        font-size: 1.1rem;
+      }
+      .product-card p {
+        font-size: 0.75rem;
+      }
+      .silhouette {
+        transform: translateX(-50%) scale(0.35);
+      }
+      .runner {
+        transform: scale(0.35);
+      }
+      .stage-glow {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
     .scroll-hint {
       position: fixed;
       bottom: 30px;
