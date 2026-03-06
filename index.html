@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BE$OS — Dame Un Beso</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --besos-red: #c41e3a;
+      --besos-pink: #e84393;
+      --besos-dark: #0a0a0a;
+      --besos-gold: #d4a843;
+    }
+
+    body {
+      background: var(--besos-dark);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ===== SCENE 1: Stage & Kiss Drop ===== */
+    #scene1 {
+      height: 400vh;
+      position: relative;
+    }
+
+    #scene1-pin {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(ellipse 40% 60% at 50% 80%, #1a1a2e 0%, #0a0a0a 70%);
+    }
+
+    /* Spotlight */
+    .spotlight {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 100vh;
+      background: radial-gradient(ellipse 50% 70% at 50% 100%, rgba(255,255,220,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Stage floor */
+    .stage-floor {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(to top, #1a1a1a 0%, transparent 100%);
+    }
+
+    /* Stick figure silhouette */
+    .silhouette {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      transform-origin: bottom center;
+    }
+
+    /* Kiss logo */
+    .kiss-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -200px;
+    }
+
+    /* ===== SCENE 2: Product Reveal ===== */
+    #scene2 {
+      height: 500vh;
+      position: relative;
+    }
+
+    #scene2-pin {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--besos-dark);
+    }
+
+    .rolling-kiss {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .products-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      padding: 60px;
+    }
+
+    .product-card {
+      background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+      border: 1px solid rgba(196, 30, 58, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      width: 260px;
+      opacity: 0;
+      transform: translateY(60px) scale(0.8);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(196,30,58,0.1);
+      transition: box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 50px rgba(196,30,58,0.25);
+    }
+
+    .product-card .product-icon {
+      width: 120px;
+      height: 160px;
+      margin: 0 auto 20px;
+    }
+
+    .product-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: var(--besos-red);
+      margin-bottom: 8px;
+    }
+
+    .product-card .strain {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--besos-gold);
+      margin-bottom: 12px;
+    }
+
+    .product-card p {
+      font-size: 0.85rem;
+      color: #888;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .product-card .thc {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--besos-pink);
+      font-weight: 600;
+    }
+
+    /* ===== SCENE 3: Chase & Blackout ===== */
+    #scene3 {
+      height: 500vh;
+      position: relative;
+    }
+
+    #scene3-pin {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--besos-dark);
+    }
+
+    .runner {
+      position: absolute;
+      bottom: 120px;
+      left: -100px;
+    }
+
+    .chase-kiss {
+      position: absolute;
+      bottom: 100px;
+    }
+
+    .blackout-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--besos-dark);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .final-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 60;
+      text-align: center;
+    }
+
+    .final-logo .besos-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      letter-spacing: 12px;
+      color: var(--besos-red);
+      text-shadow: 0 0 60px rgba(196,30,58,0.5), 0 0 120px rgba(196,30,58,0.2);
+    }
+
+    .final-logo .tagline {
+      font-size: 1.2rem;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--besos-gold);
+      margin-top: 10px;
+      opacity: 0;
+    }
+
+    .final-kiss-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -70%) scale(0);
+      z-index: 61;
+    }
+
+    /* Ground line for scenes */
+    .ground-line {
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.05) 80%, transparent);
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      z-index: 100;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+    }
+
+    .scroll-hint .arrow {
+      display: block;
+      text-align: center;
+      margin-top: 5px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    Scroll to begin
+    <span class="arrow">↓</span>
+  </div>
+
+  <!-- ===== SCENE 1: Dark Stage, Man, Kiss Falls ===== -->
+  <section id="scene1">
+    <div id="scene1-pin">
+      <div class="spotlight"></div>
+      <div class="stage-floor"></div>
+
+      <!-- Stick figure silhouette -->
+      <svg class="silhouette" width="80" height="180" viewBox="0 0 80 180">
+        <!-- Head -->
+        <circle cx="40" cy="20" r="14" fill="#111" stroke="#222" stroke-width="1"/>
+        <!-- Body -->
+        <line x1="40" y1="34" x2="40" y2="100" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+        <!-- Arms (neutral) -->
+        <line class="left-arm" x1="40" y1="55" x2="15" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+        <line class="right-arm" x1="40" y1="55" x2="65" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+        <!-- Legs -->
+        <line x1="40" y1="100" x2="20" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+        <line x1="40" y1="100" x2="60" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+        <!-- Feet -->
+        <line x1="20" y1="145" x2="10" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+        <line x1="60" y1="145" x2="70" y2="145" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Falling Kiss Logo -->
+      <svg class="kiss-logo" width="220" height="160" viewBox="0 0 220 160">
+        <defs>
+          <radialGradient id="kissGrad" cx="50%" cy="40%" r="50%">
+            <stop offset="0%" stop-color="#e84393"/>
+            <stop offset="100%" stop-color="#c41e3a"/>
+          </radialGradient>
+          <filter id="kissGlow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Lips shape -->
+        <g filter="url(#kissGlow)">
+          <!-- Upper lip -->
+          <path d="M30,80 Q50,20 110,40 Q120,42 110,40 Q170,20 190,80" fill="url(#kissGrad)" />
+          <!-- Lower lip -->
+          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="url(#kissGrad)" />
+          <!-- Cupid's bow -->
+          <path d="M80,55 Q95,40 110,50 Q125,40 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.5"/>
+          <!-- Highlight -->
+          <ellipse cx="85" cy="100" rx="20" ry="10" fill="rgba(255,255,255,0.08)"/>
+          <!-- Lip line -->
+          <path d="M40,80 Q70,90 110,85 Q150,90 180,80" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== SCENE 2: Product Reveal ===== -->
+  <section id="scene2">
+    <div id="scene2-pin">
+      <div class="ground-line"></div>
+
+      <!-- Rolling kiss (same SVG, will animate) -->
+      <svg class="rolling-kiss" width="120" height="90" viewBox="0 0 220 160">
+        <defs>
+          <radialGradient id="kissGrad2" cx="50%" cy="40%" r="50%">
+            <stop offset="0%" stop-color="#e84393"/>
+            <stop offset="100%" stop-color="#c41e3a"/>
+          </radialGradient>
+        </defs>
+        <g>
+          <path d="M30,80 Q50,20 110,40 Q120,42 110,40 Q170,20 190,80" fill="url(#kissGrad2)" />
+          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="url(#kissGrad2)" />
+          <path d="M40,80 Q70,90 110,85 Q150,90 180,80" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        </g>
+      </svg>
+
+      <!-- Products -->
+      <div class="products-container">
+        <!-- Product 1: Disposable -->
+        <div class="product-card">
+          <svg class="product-icon" viewBox="0 0 120 160">
+            <!-- Vape pen body -->
+            <rect x="35" y="10" width="50" height="120" rx="25" fill="linear-gradient(#1a1a2e, #0a0a0a)"/>
+            <rect x="35" y="10" width="50" height="120" rx="25" fill="none" stroke="var(--besos-red)" stroke-width="1.5" opacity="0.6"/>
+            <rect x="45" y="20" width="30" height="60" rx="5" fill="rgba(196,30,58,0.15)"/>
+            <!-- Mouthpiece -->
+            <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
+            <!-- Kiss mark on pen -->
+            <g transform="translate(42, 95) scale(0.25)">
+              <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+            </g>
+            <!-- LED -->
+            <circle cx="60" cy="125" r="3" fill="#c41e3a" opacity="0.8"/>
+          </svg>
+          <h3>Liquid Diamonds</h3>
+          <div class="strain">Disposable · 2G</div>
+          <p>The purest form of cannabis. Live resin extracted from fresh frozen flower.</p>
+          <div class="thc">90-96% THC</div>
+        </div>
+
+        <!-- Product 2: Watermelon Kiss -->
+        <div class="product-card">
+          <svg class="product-icon" viewBox="0 0 120 160">
+            <rect x="35" y="10" width="50" height="120" rx="25" fill="none" stroke="#4ade80" stroke-width="1.5" opacity="0.6"/>
+            <rect x="45" y="20" width="30" height="60" rx="5" fill="rgba(74,222,128,0.1)"/>
+            <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
+            <!-- Watermelon accent -->
+            <circle cx="60" cy="50" r="12" fill="rgba(74,222,128,0.2)" stroke="#4ade80" stroke-width="0.5"/>
+            <circle cx="55" cy="48" r="1.5" fill="#333"/>
+            <circle cx="62" cy="45" r="1.5" fill="#333"/>
+            <circle cx="65" cy="52" r="1.5" fill="#333"/>
+            <g transform="translate(42, 95) scale(0.25)">
+              <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+            </g>
+            <circle cx="60" cy="125" r="3" fill="#4ade80" opacity="0.8"/>
+          </svg>
+          <h3>Watermelon Kiss</h3>
+          <div class="strain">Hybrid · 1.25G</div>
+          <p>Sweet, refreshing watermelon with a smooth exhale. Dame un beso.</p>
+          <div class="thc">92% THC</div>
+        </div>
+
+        <!-- Product 3: Blueberry Kiss -->
+        <div class="product-card">
+          <svg class="product-icon" viewBox="0 0 120 160">
+            <rect x="35" y="10" width="50" height="120" rx="25" fill="none" stroke="#818cf8" stroke-width="1.5" opacity="0.6"/>
+            <rect x="45" y="20" width="30" height="60" rx="5" fill="rgba(129,140,248,0.1)"/>
+            <rect x="48" y="2" width="24" height="15" rx="5" fill="#222"/>
+            <!-- Blueberry accent -->
+            <circle cx="55" cy="45" r="7" fill="rgba(129,140,248,0.3)" stroke="#818cf8" stroke-width="0.5"/>
+            <circle cx="65" cy="50" r="6" fill="rgba(129,140,248,0.25)" stroke="#818cf8" stroke-width="0.5"/>
+            <circle cx="58" cy="55" r="5" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="0.5"/>
+            <g transform="translate(42, 95) scale(0.25)">
+              <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
+              <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+            </g>
+            <circle cx="60" cy="125" r="3" fill="#818cf8" opacity="0.8"/>
+          </svg>
+          <h3>Blueberry Kiss</h3>
+          <div class="strain">Indica · 1.25G</div>
+          <p>Rich blueberry flavor with calming effects. Unwind and share the love.</p>
+          <div class="thc">91% THC</div>
+        </div>
+
+        <!-- Product 4: Coffin Kisses Pre-Roll -->
+        <div class="product-card">
+          <svg class="product-icon" viewBox="0 0 120 160">
+            <!-- Pre-roll joint shape -->
+            <g transform="rotate(-15, 60, 80)">
+              <polygon points="50,15 70,15 75,130 45,130" fill="none" stroke="var(--besos-gold)" stroke-width="1.5" opacity="0.6"/>
+              <!-- Paper texture lines -->
+              <line x1="52" y1="40" x2="68" y2="40" stroke="rgba(212,168,67,0.2)" stroke-width="0.5"/>
+              <line x1="51" y1="60" x2="69" y2="60" stroke="rgba(212,168,67,0.2)" stroke-width="0.5"/>
+              <line x1="50" y1="80" x2="70" y2="80" stroke="rgba(212,168,67,0.2)" stroke-width="0.5"/>
+              <!-- Tip glow -->
+              <polygon points="50,12 70,12 68,5 52,5" fill="rgba(255,100,0,0.3)"/>
+              <polygon points="52,5 68,5 65,0 55,0" fill="rgba(255,60,0,0.2)"/>
+              <!-- Kiss mark -->
+              <g transform="translate(42, 95) scale(0.22)">
+                <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="#c41e3a" opacity="0.8"/>
+                <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="#c41e3a" opacity="0.8"/>
+              </g>
+            </g>
+            <!-- Coffin shape accent -->
+            <path d="M30,140 L40,135 L80,135 L90,140 L85,155 L35,155 Z" fill="none" stroke="var(--besos-gold)" stroke-width="0.8" opacity="0.3"/>
+          </svg>
+          <h3>Coffin Kisses</h3>
+          <div class="strain">Infused Pre-Rolls</div>
+          <p>Potency meets taste in every puff. Perfect for sharing with friends.</p>
+          <div class="thc">Premium Infused</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCENE 3: Chase, Blackout, Finale ===== -->
+  <section id="scene3">
+    <div id="scene3-pin">
+      <div class="ground-line"></div>
+
+      <!-- Running stick figure -->
+      <svg class="runner" width="80" height="140" viewBox="0 0 80 140">
+        <circle cx="40" cy="15" r="12" fill="#ddd"/>
+        <line x1="40" y1="27" x2="40" y2="75" stroke="#ddd" stroke-width="3" stroke-linecap="round"/>
+        <!-- Arms (running pose) -->
+        <line class="run-arm-l" x1="40" y1="45" x2="20" y2="35" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+        <line class="run-arm-r" x1="40" y1="45" x2="60" y2="60" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Legs (running pose) -->
+        <line class="run-leg-l" x1="40" y1="75" x2="20" y2="110" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+        <line class="run-leg-r" x1="40" y1="75" x2="60" y2="105" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Feet -->
+        <line x1="20" y1="110" x2="12" y2="110" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="60" y1="105" x2="68" y2="108" stroke="#ddd" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Chasing kiss logos (generated by JS) -->
+      <div id="chase-kisses"></div>
+
+      <!-- Blackout overlay -->
+      <div class="blackout-overlay"></div>
+
+      <!-- Final Besos Logo -->
+      <svg class="final-kiss-logo" width="160" height="120" viewBox="0 0 220 160">
+        <defs>
+          <radialGradient id="kissGrad3" cx="50%" cy="40%" r="50%">
+            <stop offset="0%" stop-color="#e84393"/>
+            <stop offset="100%" stop-color="#c41e3a"/>
+          </radialGradient>
+          <filter id="finalGlow">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#finalGlow)">
+          <path d="M30,80 Q50,20 110,40 Q120,42 110,40 Q170,20 190,80" fill="url(#kissGrad3)" />
+          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="url(#kissGrad3)" />
+          <path d="M80,55 Q95,40 110,50 Q125,40 140,55" fill="none" stroke="#ff6b9d" stroke-width="2" opacity="0.5"/>
+          <path d="M40,80 Q70,90 110,85 Q150,90 180,80" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        </g>
+      </svg>
+
+      <div class="final-logo">
+        <div class="besos-text">BE$OS</div>
+        <div class="tagline">Dame Un Beso · Para La Cultura</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ===========================
+    // SCENE 1: Stage, Kiss Falls
+    // ===========================
+    const scene1Tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#scene1",
+        pin: "#scene1-pin",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1,
+      }
+    });
+
+    // Kiss logo falls from above
+    scene1Tl
+      .fromTo(".kiss-logo",
+        { y: -200, scale: 0.5, rotation: -15 },
+        { y: 280, scale: 1, rotation: 0, duration: 3, ease: "bounce.out" }
+      )
+      // Spotlight intensifies as kiss falls
+      .to(".spotlight", {
+        background: "radial-gradient(ellipse 50% 70% at 50% 100%, rgba(196,30,58,0.12) 0%, transparent 70%)",
+        duration: 2
+      }, 0)
+      // Silhouette cowers back — lean back, arms up
+      .to(".silhouette", {
+        x: -30,
+        rotation: -15,
+        duration: 2
+      }, 1)
+      .to(".silhouette .left-arm", {
+        attr: { x2: 5, y2: 40 },
+        duration: 1.5
+      }, 1.2)
+      .to(".silhouette .right-arm", {
+        attr: { x2: 70, y2: 40 },
+        duration: 1.5
+      }, 1.2)
+      // Kiss logo grows to fill most of the screen
+      .to(".kiss-logo", {
+        scale: 4.5,
+        y: 100,
+        duration: 3,
+        ease: "power2.inOut"
+      }, 3.5)
+      // Silhouette fades behind it
+      .to(".silhouette", { opacity: 0, duration: 1 }, 4)
+      // Spotlight goes dark
+      .to(".spotlight", { opacity: 0, duration: 1 }, 5);
+
+
+    // ===========================
+    // SCENE 2: Roll Away & Products
+    // ===========================
+    const scene2Tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#scene2",
+        pin: "#scene2-pin",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1,
+      }
+    });
+
+    // Kiss rolls away to the right
+    scene2Tl
+      .fromTo(".rolling-kiss",
+        { x: 0, rotation: 0 },
+        { x: window.innerWidth + 200, rotation: 720, duration: 3, ease: "power1.in" }
+      )
+      // Products container fades in
+      .to(".products-container", { opacity: 1, duration: 0.5 }, 1.5)
+      // Each product card pops in with stagger
+      .to(".product-card", {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.5,
+        stagger: 0.4,
+        ease: "back.out(1.7)"
+      }, 2)
+      // Hold products visible
+      .to({}, { duration: 2 })
+      // Fade products out for next scene
+      .to(".products-container", { opacity: 0, y: -40, duration: 1.5 }, ">");
+
+
+    // ===========================
+    // SCENE 3: Chase & Blackout
+    // ===========================
+
+    // Generate chase kiss SVGs
+    const chaseContainer = document.getElementById("chase-kisses");
+    const numKisses = 25;
+    for (let i = 0; i < numKisses; i++) {
+      const kiss = document.createElement("div");
+      kiss.className = "chase-kiss";
+      kiss.style.cssText = `
+        position: absolute;
+        bottom: ${80 + Math.random() * 200}px;
+        left: ${-200 - (i * 120) - Math.random() * 100}px;
+        opacity: ${0.4 + Math.random() * 0.6};
+        transform: scale(${0.3 + Math.random() * 0.7});
+      `;
+      kiss.innerHTML = `
+        <svg width="60" height="45" viewBox="0 0 220 160">
+          <path d="M30,80 Q50,20 110,40 Q170,20 190,80" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
+          <path d="M30,80 Q60,85 110,130 Q160,85 190,80" fill="${Math.random() > 0.5 ? '#c41e3a' : '#e84393'}" />
+        </svg>
+      `;
+      chaseContainer.appendChild(kiss);
+    }
+
+    const scene3Tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#scene3",
+        pin: "#scene3-pin",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1,
+      }
+    });
+
+    // Runner moves across the screen
+    scene3Tl
+      .to(".runner", {
+        x: window.innerWidth * 0.65,
+        duration: 5,
+        ease: "power1.inOut"
+      })
+      // Animate running pose (alternate arms/legs)
+      .to(".run-arm-l", { attr: { x2: 60, y2: 60 }, duration: 0.5, yoyo: true, repeat: 8 }, 0)
+      .to(".run-arm-r", { attr: { x2: 20, y2: 35 }, duration: 0.5, yoyo: true, repeat: 8 }, 0)
+      .to(".run-leg-l", { attr: { x2: 60, y2: 105 }, duration: 0.5, yoyo: true, repeat: 8 }, 0)
+      .to(".run-leg-r", { attr: { x2: 20, y2: 110 }, duration: 0.5, yoyo: true, repeat: 8 }, 0);
+
+    // Chase kisses swarm in
+    document.querySelectorAll(".chase-kiss").forEach((kiss, i) => {
+      scene3Tl.to(kiss, {
+        x: window.innerWidth + 400 + (i * 50),
+        duration: 4 + Math.random() * 2,
+        ease: "power1.in"
+      }, 0.1 * Math.min(i, 10));
+    });
+
+    // Blackout as kisses overwhelm
+    scene3Tl
+      .to(".blackout-overlay", {
+        opacity: 1,
+        duration: 1.5
+      }, 4)
+      // Runner disappears
+      .to(".runner", { opacity: 0, duration: 0.5 }, 4)
+      // Kiss logos fade behind blackout
+      .to("#chase-kisses", { opacity: 0, duration: 0.5 }, 5)
+      // Final kiss logo pops in
+      .to(".final-kiss-logo", {
+        scale: 1,
+        duration: 1,
+        ease: "back.out(2)"
+      }, 5.5)
+      // Final BE$OS text pops in
+      .to(".final-logo", {
+        scale: 1,
+        duration: 1.2,
+        ease: "elastic.out(1, 0.5)"
+      }, 6)
+      // Tagline fades in
+      .to(".final-logo .tagline", {
+        opacity: 1,
+        duration: 1
+      }, 7)
+      // Hold finale
+      .to({}, { duration: 1 });
+
+    // Hide scroll hint after user starts scrolling
+    ScrollTrigger.create({
+      trigger: "#scene1",
+      start: "top top",
+      onUpdate: (self) => {
+        if (self.progress > 0.02) {
+          gsap.to(".scroll-hint", { opacity: 0, duration: 0.5 });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
