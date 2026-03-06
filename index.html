@@ -64,20 +64,20 @@
       background: linear-gradient(to top, #1a1a1a 0%, transparent 100%);
     }
 
-    /* Sprite-based silhouette (idle pose = row 1) */
+    /* Sprite-based silhouette (idle = row 2, cower = row 1) */
     .silhouette {
       position: absolute;
       bottom: 80px;
       left: 50%;
       width: 192px;
       height: 341px;
-      background: url('sprite-sheet-final.png') 0 0;
+      background: url('sprite-sheet-final.png') 0 -341px;
       background-size: 1536px 1024px;
       transform: translateX(-50%) scale(0.5);
       transform-origin: bottom center;
     }
     .silhouette.cowering {
-      background-position-y: -341px;
+      background-position-y: 0;
       animation: cowerCycle 0.8s steps(7) infinite;
     }
     @keyframes cowerCycle {
@@ -185,6 +185,7 @@
       bottom: 80px;
       left: -200px;
       opacity: 0;
+      visibility: hidden;
       width: 192px;
       height: 342px;
       background: url('sprite-sheet-final.png') 0 -682px;
@@ -193,6 +194,7 @@
       transform-origin: bottom center;
     }
     .runner.running {
+      visibility: visible;
       animation: runCycle 0.6s steps(8) infinite;
     }
     @keyframes runCycle {
